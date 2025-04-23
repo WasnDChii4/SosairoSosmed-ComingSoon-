@@ -6,7 +6,7 @@ export default function Friends() {
   return (
     <LayoutPage>
       <div className="text-white">
-        <div className="fixed left-16 right-0 flex items-center justify-start h-16 px-4 gap-6 bg-gray-700 shadow shadow-black space-x-2">
+        <div className="fixed left-16 right-0 flex items-center justify-start h-16 px-4 gap-6 bg-gray-700 shadow shadow-black">
           <button className="btn btn-md bg-base-300 hover:bg-base-100" onClick={() => document.getElementById('my_modal_search').showModal()}>Find or start a conversation</button>
           <dialog id="my_modal_search" className="modal">
             <div className="modal-box">
