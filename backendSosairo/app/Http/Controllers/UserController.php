@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function register(Request $request) {
         $request->validate([
-            'name' => 'required|string|max:225',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|max:12|confirmed',
         ]);
@@ -38,9 +38,9 @@ class UserController extends Controller
 
         //Mengirim response ke frontend
         return response()->json([
-            'message' => 'User registered successfullly',
+            'message' => 'User registered successfully',
             'user' => $user,
-            'remember_token' => $token,
+            'token' => $token,
         ]);
     }
 }
