@@ -34,6 +34,10 @@ export default function LoginUser() {
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-2.5">{showPassword ? <EyeClosed /> : <EyeOpen />}</button>
             </div>
           </div>
+          <div className="flex items-center space-x-3">
+            <input type="checkbox" defaultChecked className="checkbox border-white bg-white checked:border-neutral checked:bg-neutral" />
+            <label htmlFor="remember_me" className="text-lg font-semibold">Remember Me</label>
+          </div>
           <button type="submit" className="w-full bg-blue-800 py-2 rounded-lg hover:bg-blue-900 font-bold">Login</button>
           <div className="text-center">
             <span>Don't have an account? </span><a href="/registerSosairo" className="text-blue-500 underline">Register here</a>
