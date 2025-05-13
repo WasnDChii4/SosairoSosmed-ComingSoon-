@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axiosCLient from "../../../api/axios";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
@@ -16,21 +16,21 @@ export default function RegisterUser() {
     password_confirmation: '',
   });
 
-  const handleChange = (e) => {
+  const handleChangeRegister = (e) => {
     setFOrmData({...formData, [e.target.name]: e.target.value});
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmitRegister = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
 
     try {
-      await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+      await axiosCLient.get("http://127.0.0.1:8000/sanctum/csrf-cookie", {
         withCredentials: true,
       });
 
-      const response = await axios.post("http://127.0.0.1:8000/api/register", formData, {
+      const response = await axiosCLient.post("http://127.0.0.1:8000/api/registerSosairo", formData, {
         withCredentials: true,
       });
       
@@ -85,21 +85,21 @@ export default function RegisterUser() {
         <div className="text-center font-bold text-2xl md:text-4xl">
           <h2>Register</h2>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmitRegister} className="space-y-8">
           <div className="space-y-2">
             <label htmlFor="name" className="block text-lg font-semibold">Nama</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none" placeholder="Enter your name" />
+            <input type="text" name="name" value={formData.name} onChange={handleChangeRegister} className="w-full px-3 py-2 border rounded-lg focus:outline-none" placeholder="Enter your name" />
             {error?.name && <p className="text-red-500 text-sm">{error.name[0]}</p>}
           </div>
           <div className="space-y-2">
             <label htmlFor="email" className="block text-lg font-semibold">Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none" placeholder="Enter your email" />
+            <input type="email" name="email" value={formData.email} onChange={handleChangeRegister} className="w-full px-3 py-2 border rounded-lg focus:outline-none" placeholder="Enter your email" />
             {error?.email && <p className="text-red-500 text-sm">{error.email[0]}</p>}
           </div>
           <div className="space-y-2">
             <label htmlFor="password" className="block text-lg font-semibold">Password</label>
             <div className="relative">
-              <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} className="w-full px-3 pr-10 py-2 border rounded-lg focus:outline-none" placeholder="Enter your password" />
+              <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChangeRegister} className="w-full px-3 pr-10 py-2 border rounded-lg focus:outline-none" placeholder="Enter your password" />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-2.5">{showPassword ? <EyeClosed /> : <EyeOpen />}</button>
               {error?.password && <p className="text-red-500 text-sm">{error.password[0]}</p>}
             </div>
@@ -107,7 +107,7 @@ export default function RegisterUser() {
           <div className="space-y-2">
             <label htmlFor="password_confirmation" className="block text-lg font-semibold">Confirm Password</label>
             <div className="relative">
-              <input type={showConfirmPassword ? "text" : "password"} name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} className="w-full px-3 pr-10 py-2 border rounded-lg focus:outline-none" placeholder="Enter your confirmed password" />
+              <input type={showConfirmPassword ? "text" : "password"} name="password_confirmation" value={formData.password_confirmation} onChange={handleChangeRegister} className="w-full px-3 pr-10 py-2 border rounded-lg focus:outline-none" placeholder="Enter your confirmed password" />
               <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-2.5">{showConfirmPassword ? <EyeClosed /> : <EyeOpen />}</button>
               {error?.confirm_password && <p className="text-red-500 text-sm">{error.confirm_password[0]}</p>}
             </div>
