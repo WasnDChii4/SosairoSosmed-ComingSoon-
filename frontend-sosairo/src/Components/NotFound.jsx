@@ -14,7 +14,7 @@ export default function NotFound() {
           <h1 className="mb-4 text-6xl font-extrabold text-red-500 animate-pulse">404</h1>
           <p className="mb-2 text-2xl font-semibold">Page Not Found</p>
           <p className="mb-6 text-gray-400">Oops... Looks like you've wandered into the void</p>
-          <button onClick={() => navigate('/channels/friends')} className="animate-bounce shadow-lg shadow-[#5854ec] px-6 py-3 text-white transition duration-300 ease-in-out bg-indigo-600 rounded-full  btn btn-primary hover:bg-indigo-500 mt-3">
+          <button onClick={() => navigate('/channels/directMessages')} className="animate-bounce shadow-lg shadow-[#5854ec] px-6 py-3 text-white transition duration-300 ease-in-out bg-indigo-600 rounded-full  btn btn-primary hover:bg-indigo-500 mt-3">
             🚀 Go Back Channels
           </button>
         </div>

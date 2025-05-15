@@ -1,10 +1,10 @@
 import React from "react";
 import { FaUserFriends } from "react-icons/fa";
-import LayoutPage from "../Layout/LayoutPage";
+import MainLayoutPage from "../Layout/MainLayoutPage";
 
-export default function Friends() {
+export default function DirectMessages() {
   return (
-    <LayoutPage>
+    <MainLayoutPage>
       <div className="text-white">
         <div className="fixed left-16 right-0 flex items-center justify-start h-16 px-4 gap-6 bg-gray-700 shadow shadow-black">
           <button className="btn btn-md bg-base-300 hover:bg-base-100" onClick={() => document.getElementById('my_modal_search').showModal()}>Find or start a conversation</button>
@@ -53,6 +53,6 @@ export default function Friends() {
           </dialog>
         </div>
       </div>
-    </LayoutPage>
+    </MainLayoutPage>
   )
 }

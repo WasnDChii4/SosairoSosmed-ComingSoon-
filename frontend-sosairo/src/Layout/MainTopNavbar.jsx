@@ -3,10 +3,10 @@ import { FaQuestionCircle, FaInbox } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
 const routeTitles = {
-  "/channels/friends" : "Friends",
+  "/channels/directMessages" : "Direct Messages",
 }
 
-export default function TopNavbar() {
+export default function MainTopNavbar() {
   const location = useLocation();
   const currentPath = location.pathname;
 
