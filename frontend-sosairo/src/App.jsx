@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NotFound from './Components/NotFound';
 import Welcome from "./Pages/Welcome";
-import DirectMessages from './Pages/DirectMessages';
+import Friends from './Pages/Friends';
 import RegisterUser from './Pages/Login&Register/User/RegisterUser';
 import LoginUser from './Pages/Login&Register/User/LoginUser';
 import Settings from './Pages/Settings';
@@ -14,7 +14,7 @@ export default function App() {
         <Route path='/registerSosairo' element={<RegisterUser />}></Route>
         <Route path='/loginSosairo' element={<LoginUser />}></Route>
         <Route path='/' element={<Welcome />}></Route>
-        <Route path='/channels/directMessages' element={<DirectMessages />}></Route>
+        <Route path='/channels/friends' element={<Friends />}></Route>
         <Route path='/settings' element={<Settings />}></Route>
         <Route path='*' element={<NotFound />}></Route>
       </Routes>

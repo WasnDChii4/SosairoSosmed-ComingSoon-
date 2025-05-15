@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function Welcome () {
   const navigate = useNavigate();
 
-  const goToChannels = () => navigate('/channels/directMessages');
+  const goToChannels = () => navigate('/channels/friends');
 
   return (
     <div>

@@ -36,7 +36,7 @@ export default function LoginUser() {
 
       Swal.fire('Success!', response.data.message, 'success');
       
-      navigate('/channels/directMessages'); 
+      navigate('/channels/friends'); 
     } catch (error) {
       Swal.fire('Error', error.response?.data?.message || 'Login gagal', 'error');
     }

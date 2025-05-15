@@ -3,7 +3,7 @@ import { FaQuestionCircle, FaInbox } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
 const routeTitles = {
-  "/channels/directMessages" : "Direct Messages",
+  "/channels/friends" : "Friends",
 }
 
 export default function MainTopNavbar() {

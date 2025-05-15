@@ -2,7 +2,7 @@ import React from "react";
 import { FaUserFriends } from "react-icons/fa";
 import MainLayoutPage from "../Layout/MainLayoutPage";
 
-export default function DirectMessages() {
+export default function Friends() {
   return (
     <MainLayoutPage>
       <div className="text-white">

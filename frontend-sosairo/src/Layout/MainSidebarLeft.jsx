@@ -38,7 +38,7 @@ export default function MainSidebarLeft() {
         <div className=" tooltip-content bg-base-300 shadow-md shadow-black">
           <div className="text-sm">Direct Message</div>
         </div>
-        <button onClick={() => navigate('/channels/directMessages')} className="w-12 h-12 btn btn-circle btn-sm bg-primary hover:bg-primary-focus">
+        <button onClick={() => navigate('/channels/friends')} className="w-12 h-12 btn btn-circle btn-sm bg-primary hover:bg-primary-focus">
           <img src="/images/sosairo-logo2.png" alt="LogoSosairo" />
         </button>
       </div>
