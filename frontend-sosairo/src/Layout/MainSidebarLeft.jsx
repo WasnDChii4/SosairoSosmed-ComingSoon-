@@ -89,8 +89,6 @@ export default function MainSidebarLeft() {
 
       <div className="flex-1"></div>
 
-
-      {/* Menu */}
       <div className="flex flex-col mb-2 space-y-3 space-x-5 dropdown dropdown-right dropdown-end">
         <div className="tooltip tooltip-right" tabIndex={0}>
           <div className="tooltip-content bg-base-300 shadow-md shadow-black">
