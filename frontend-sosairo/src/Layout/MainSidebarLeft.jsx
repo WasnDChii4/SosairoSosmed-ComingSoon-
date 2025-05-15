@@ -70,7 +70,7 @@ export default function MainSidebarLeft() {
           <FaPlus size={18} />
         </button>
       </div>
-      {/* <dialog id="my_modal_server" className="modal">
+      <dialog id="my_modal_server" className="modal">
         <div className="modal-box">
         <label className="input w-full">
           <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -85,7 +85,7 @@ export default function MainSidebarLeft() {
         <form method="dialog" className="modal-backdrop">
           <button>Close</button>
         </form>
-      </dialog> */}
+      </dialog>
 
       <div className="flex-1"></div>
 
