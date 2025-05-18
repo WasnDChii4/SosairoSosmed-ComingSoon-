@@ -15,7 +15,6 @@ export default function SettingsLayoutPage() {
         <li>Devices</li>
         <li>Connections</li>
         <li>Clips</li>
-        Tambah menu lainnya
       </ul>
     </aside>
 
