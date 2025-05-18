@@ -6,7 +6,7 @@ export default function SettingsLayoutPage() {
     {/* Sidebar */}
     <aside className="w-64 bg-[#1e1f22] text-white overflow-y-auto p-4">
       <ul className="space-y-2">
-        {/* <li className="font-semibold">My Account</li>
+        <li className="font-semibold">My Account</li>
         <li>Profiles</li>
         <li>Content & Social</li>
         <li>Data & Privacy</li>
@@ -15,7 +15,7 @@ export default function SettingsLayoutPage() {
         <li>Devices</li>
         <li>Connections</li>
         <li>Clips</li>
-        Tambah menu lainnya */}
+        Tambah menu lainnya
       </ul>
     </aside>
 
