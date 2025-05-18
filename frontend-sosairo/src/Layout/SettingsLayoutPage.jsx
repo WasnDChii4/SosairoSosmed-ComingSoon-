@@ -8,13 +8,13 @@ export default function SettingsLayoutPage() {
       <ul className="space-y-2">
         <li className="font-semibold">My Account</li>
         <li>Profiles</li>
-        <li>Content & Social</li>
+        {/* <li>Content & Social</li>
         <li>Data & Privacy</li>
         <li className="bg-gray-700 px-2 py-1 rounded">Family Center</li>
         <li>Authorized Apps</li>
         <li>Devices</li>
         <li>Connections</li>
-        <li>Clips</li>
+        <li>Clips</li> */}
       </ul>
     </aside>
 
