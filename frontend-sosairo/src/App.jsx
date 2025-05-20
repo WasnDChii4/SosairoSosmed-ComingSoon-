@@ -5,7 +5,7 @@ import Welcome from "./Pages/Welcome";
 import Friends from './Pages/Friends';
 import RegisterUser from './Pages/Login&Register/User/RegisterUser';
 import LoginUser from './Pages/Login&Register/User/LoginUser';
-import Settings from './Pages/Settings';
+import MyProfile from './Pages/SettingsBar/MyProfile';
 
 export default function App() {
   return (
@@ -15,7 +15,7 @@ export default function App() {
         <Route path='/loginSosairo' element={<LoginUser />}></Route>
         <Route path='/' element={<Welcome />}></Route>
         <Route path='/channels/friends' element={<Friends />}></Route>
-        <Route path='/settings' element={<Settings />}></Route>
+        <Route path='/settings/myProfile' element={<MyProfile />}></Route>
         <Route path='*' element={<NotFound />}></Route>
       </Routes>
     </Router>

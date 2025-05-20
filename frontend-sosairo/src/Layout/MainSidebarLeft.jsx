@@ -14,7 +14,7 @@ export default function MainSidebarLeft() {
   //     .catch(() => setServers([]));
   // }, []);
 
-  const goToSettings = () => navigate('/settings');
+  const goToSettings = () => navigate('/settings/myProfile');
 
   const handleLogout = async () => {
     try {
@@ -34,7 +34,6 @@ export default function MainSidebarLeft() {
 
   return (
     <div className="fixed top-12 left-0 w-16 h-[calc(100vh-3rem)] bg-neutral text-neutral-content flex flex-col z-40">
-
     {/* Bagian atas sidebar */}
     <div className="flex flex-col items-center py-4 space-y-4">
       {/* Logo */}
