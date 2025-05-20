@@ -1,12 +1,17 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function SettingsLayoutPage() {
+  const navigate = useNavigate();
+
+  const goBackChannels = () => navigate('/channels/friends');
+
   return (
     <div className="flex h-screen">
     {/* Sidebar */}
     <aside className="w-64 bg-[#1e1f22] text-white overflow-y-auto p-4">
+      <h2 className="text-2xl font-semibold mb-4">User Settings</h2>
       <ul className="space-y-2">
-        <li className="font-semibold">My Account</li>
         <li>Profiles</li>
         {/* <li>Content & Social</li>
         <li>Data & Privacy</li>
