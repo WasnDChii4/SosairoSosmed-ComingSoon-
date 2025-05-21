@@ -26,11 +26,11 @@ export default function RegisterUser() {
     setSuccess(null);
 
     try {
-      await axiosCLient.get("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+      await axiosCLient.get("/sanctum/csrf-cookie", {
         withCredentials: true,
       });
 
-      const response = await axiosCLient.post("http://127.0.0.1:8000/api/registerSosairo", formData, {
+      const response = await axiosCLient.post("/api/registerSosairo", formData, {
         withCredentials: true,
       });
       

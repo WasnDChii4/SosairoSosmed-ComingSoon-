@@ -24,11 +24,11 @@ export default function LoginUser() {
     e.preventDefault();
 
     try {
-      await axiosCLient.get('http://127.0.0.1:8000/sanctum/csrf-cookie', {
+      await axiosCLient.get('/sanctum/csrf-cookie', {
         withCredentials: true
       });
       
-      const response = await axiosCLient.post('http://127.0.0.1:8000/api/loginSosairo', formData, {
+      const response = await axiosCLient.post('/api/loginSosairo', formData, {
         withCredentials: true
       });
       
