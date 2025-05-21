@@ -59,9 +59,14 @@ class UserController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
+        $user = Auth::user();
+
+        $token = $user->createToken('sosairo_token')->plainTextToken;
+
         return response()->json([
             'message' => 'Login successful',
             'user' => Auth::user(),
+            'token' => $token
         ]);
     }
 
