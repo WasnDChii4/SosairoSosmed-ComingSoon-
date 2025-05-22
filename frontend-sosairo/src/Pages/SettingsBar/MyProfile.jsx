@@ -49,10 +49,10 @@ export default function MyProfile() {
       <div className="bg-base-100 p-6 mt-16 rounded-lg shadow-md">
         {user ? (
           <>
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-6 mb-10">
               <div className="avatar">
                 <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  {/* <img src="https://placekitten.com/200/200" alt="User Avatar" /> */}
+                  <img src="/images/sosairo-logo2.png" alt="User Avatar" />
                 </div>
               </div>
               <div>
@@ -61,17 +61,15 @@ export default function MyProfile() {
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="form-control">
+            <div className="space-y-6">
+              <div className="form-control flex flex-col space-y-2">
                 <label className="label">Email</label>
-                <input type="email" value={user.email} className="input input-bordered" readOnly />
+                <input type="text" value={user.email} className="input w-full" disabled />
               </div>
-              <div className="form-control">
-                <label className="label">Phone Number</label>
-                <input type="text" value={user.phone || 'N/A'} className="input input-bordered" readOnly />
+              <div className="form-control flex flex-col space-y-2">
+                <label className="label">About Me</label>
+                <textarea type="text" value={user.about_me} className="textarea w-full" disabled />
               </div>
-
-              <button className="btn btn-primary mt-4">Change Password</button>
             </div>
           </>
         ) : (
