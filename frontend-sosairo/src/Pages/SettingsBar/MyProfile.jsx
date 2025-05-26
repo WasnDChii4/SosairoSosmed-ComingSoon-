@@ -6,38 +6,66 @@ import SettingsLayoutPage from '../../Layout/SettingsLayoutPage';
 export default function MyProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [editData, setEditData] = useState({ email: '', about_me: '' });
 
-  const goBackChannels = () => {
-    navigate(-1);
-  };
+  const goBackChannels = () => navigate(-1);
 
   const handleKeyDown = useCallback((e) => {
-    if (e.key === 'Escape') {
-      goBackChannels();
+    if (e.key === 'Escape') goBackChannels();
+  }, []);
+
+  // Buat fetchProfile bisa dipanggil ulang setelah update
+  const fetchProfile = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axiosCLient.get('/api/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+        withCredentials: true,
+      });
+      setUser(response.data);
+      setEditData({
+        email: response.data.email || '',
+        about_me: response.data.about_me || '',
+      });
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
     }
   }, []);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axiosCLient.get('/api/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-          },
-          withCredentials: true,
-        });
-        setUser(response.data);
-      } catch (error) {
-        console.error('Failed to fetch user:', error);
-      }
-    };
-
     fetchProfile();
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
+  }, [handleKeyDown, fetchProfile]);
+
+  const handleEditChange = (e) => {
+    setEditData({
+      ...editData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axiosCLient.put('/api/user/update', editData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+        withCredentials: true,
+      });
+
+      await fetchProfile();
+
+      document.getElementById('my_modal_5').close();
+    } catch (error) {
+      console.error('Update failed:', error);
+    }
+  };
 
   return (
     <SettingsLayoutPage>
@@ -62,30 +90,34 @@ export default function MyProfile() {
             </div>
 
             <div className="space-y-6">
-              <div className="form-control flex flex-col space-y-2">
+              <div className="form-control">
                 <label className="label">Email</label>
                 <input type="text" value={user.email} className="input w-full" disabled />
               </div>
-              <div className="form-control flex flex-col space-y-2">
+              <div className="form-control">
                 <label className="label">About Me</label>
-                <textarea type="text" value={user.about_me} className="textarea w-full" disabled />
+                <textarea value={user.about_me} className="textarea w-full" disabled />
               </div>
-              <button className="btn w-full" onClick={()=>document.getElementById('my_modal_5').showModal()}>Edit</button>
+              <button className="btn w-full" onClick={() => document.getElementById('my_modal_5').showModal()}>Edit</button>
+
+              {/* Modal */}
               <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                  <div className='space-y-6'>
-                    <div className="form-control flex flex-col space-y-2">
+                  <h3 className="font-bold text-lg mb-4">Edit Profile</h3>
+                  <div className="space-y-4">
+                    <div className="form-control">
                       <label className="label">Email</label>
-                      <input type="text" value={user.email} className="input w-full" />
+                      <input type="text" name="email" value={editData.email} onChange={handleEditChange} className="input w-full" />
                     </div>
-                    <div className="form-control flex flex-col space-y-2">
+                    <div className="form-control">
                       <label className="label">About Me</label>
-                      <textarea type="text" value={user.about_me} className="textarea w-full" />
+                      <textarea name="about_me" value={editData.about_me} onChange={handleEditChange} className="textarea w-full" />
                     </div>
                   </div>
                   <div className="modal-action">
-                    <form method="dialog">
-                      <button className="btn">Close</button>
+                    <form method="dialog" className="flex gap-2">
+                      <button className="btn" type="submit">Cancel</button>
+                      <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>Save</button>
                     </form>
                   </div>
                 </div>
@@ -93,7 +125,7 @@ export default function MyProfile() {
             </div>
           </>
         ) : (
-          <div className='flex justify-center items-center min-h-[150px}'>
+          <div className='flex justify-center items-center min-h-[150px]'>
             <span className="loading loading-ring loading-xl"></span>
           </div>
         )}

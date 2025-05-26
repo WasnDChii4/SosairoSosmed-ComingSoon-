@@ -77,4 +77,19 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Logged out']);
     }
+
+    public function update(Request $request) {
+        $user = auth()->user();
+
+        $validated = $request->validate([
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'about_me' => 'nullable|string|max:1000',
+        ]);
+
+        $user->email = $validated['email'];
+        $user->about_me = $validated['about_me'];
+        $user->save();
+
+        return response()->json(['message' => 'Profile updated successfully', 'user' => $user]);
+    }
 }
