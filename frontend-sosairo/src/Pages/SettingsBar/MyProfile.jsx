@@ -14,7 +14,6 @@ export default function MyProfile() {
     if (e.key === 'Escape') goBackChannels();
   }, []);
 
-  // Buat fetchProfile bisa dipanggil ulang setelah update
   const fetchProfile = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
