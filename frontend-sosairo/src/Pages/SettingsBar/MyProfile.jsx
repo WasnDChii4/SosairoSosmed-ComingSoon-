@@ -73,8 +73,16 @@ export default function MyProfile() {
               <button className="btn w-full" onClick={()=>document.getElementById('my_modal_5').showModal()}>Edit</button>
               <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                  <h3 className="font-bold text-lg">Hello!</h3>
-                  <p className="py-4">Press ESC key or click the button below to close</p>
+                  <div className='space-y-6'>
+                    <div className="form-control flex flex-col space-y-2">
+                      <label className="label">Email</label>
+                      <input type="text" value={user.email} className="input w-full" />
+                    </div>
+                    <div className="form-control flex flex-col space-y-2">
+                      <label className="label">About Me</label>
+                      <textarea type="text" value={user.about_me} className="textarea w-full" />
+                    </div>
+                  </div>
                   <div className="modal-action">
                     <form method="dialog">
                       <button className="btn">Close</button>
