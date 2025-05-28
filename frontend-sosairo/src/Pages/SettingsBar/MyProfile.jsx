@@ -6,7 +6,7 @@ import SettingsLayoutPage from '../../Layout/SettingsLayoutPage';
 export default function MyProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [editData, setEditData] = useState({ email: '', about_me: '' });
+  const [editData, setEditData] = useState({ name: '', username: '', email: '', about_me: '' });
 
   const goBackChannels = () => navigate(-1);
 
@@ -108,11 +108,11 @@ export default function MyProfile() {
                   <div className="space-y-4">
                     <div className="form-control">
                       <label className="label">Name</label>
-                      <input type="text" name="email" value={editData.name} onChange={handleEditChange} className="input w-full" />
+                      <input type="text" name="name" value={editData.name} onChange={handleEditChange} className="input w-full" />
                     </div>
                     <div className="form-control">
                       <label className="label">Username</label>
-                      <input type="text" name="email" value={editData.username} onChange={handleEditChange} className="input w-full" />
+                      <input type="text" name="username" value={editData.username} onChange={handleEditChange} className="input w-full" />
                     </div>
                     <div className="form-control">
                       <label className="label">Email</label>
