@@ -26,6 +26,8 @@ export default function MyProfile() {
       });
       setUser(response.data);
       setEditData({
+        name: response.data.name || '',
+        username: response.data.username || '',
         email: response.data.email || '',
         about_me: response.data.about_me || '',
       });
