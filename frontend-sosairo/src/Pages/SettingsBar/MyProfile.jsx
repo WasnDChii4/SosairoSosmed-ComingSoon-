@@ -110,7 +110,7 @@ export default function MyProfile() {
                     </div>
                     <div className="form-control">
                       <label className="label">Username</label>
-                      <input type="text" name="email" value={editData.email} onChange={handleEditChange} className="input w-full" />
+                      <input type="text" name="email" value={editData.username} onChange={handleEditChange} className="input w-full" />
                     </div>
                     <div className="form-control">
                       <label className="label">Email</label>
