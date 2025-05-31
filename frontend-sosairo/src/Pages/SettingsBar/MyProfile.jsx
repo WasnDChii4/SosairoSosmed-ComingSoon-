@@ -24,6 +24,7 @@ export default function MyProfile() {
         },
         withCredentials: true,
       });
+      console.log('Fetched profile:', response.data);
       setUser(response.data);
       setEditData({
         name: response.data.name || '',

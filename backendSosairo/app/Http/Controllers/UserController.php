@@ -82,14 +82,14 @@ class UserController extends Controller
         $user = auth()->user();
 
         $validated = $request->validate([
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'about_me' => 'nullable|string|max:1000',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'about_me' => 'nullable|string',
         ]);
 
-        $user->email = $validated['email'];
-        $user->about_me = $validated['about_me'];
-        $user->save();
+        $user->update($validated);
 
-        return response()->json(['message' => 'Profile updated successfully', 'user' => $user]);
+        return response()->json($user);
     }
 }
