@@ -43,9 +43,17 @@ export default function MyProfile() {
   }, [handleKeyDown, fetchProfile]);
 
   const handleEditChange = (e) => {
+    const { name, value } = e.target;
+
+    let newValue = value;
+
+    if (name === 'username') {
+      newValue = value.replace(/\s+/g, '-');
+    }
+
     setEditData({
       ...editData,
-      [e.target.name]: e.target.value,
+      [name]: newValue,
     });
   };
 
