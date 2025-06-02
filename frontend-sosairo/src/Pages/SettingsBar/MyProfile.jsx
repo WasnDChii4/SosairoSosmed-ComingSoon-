@@ -87,17 +87,19 @@ export default function MyProfile() {
         {user ? (
           <>
             <div className="flex items-center gap-6 mb-10">
-              <div className="avatar">
-                <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <img src="/images/sosairo-logo2.png" alt="User Avatar" />
+              <div className="avatar relative w-16 h-16">
+                <div className="w-16 h-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+                  <img src="/images/sosairo-logo2.png" alt="User Avatar" className="w-full h-full object-cover" />
                 </div>
+                <button className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-xs shadow transition-opacity duration-200" onClick={() => document.getElementById('editPhotoModal').showModal()} title="Edit Photo">
+                  ✎
+                </button>
               </div>
               <div>
                 <h2 className="text-xl font-semibold">{user.name}</h2>
                 <p className="text-sm text-gray-400">{user.username}</p>
               </div>
             </div>
-
             <div className="space-y-6">
               <div className="form-control">
                 <label className="label">Email</label>
