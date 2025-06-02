@@ -87,6 +87,8 @@ export default function MyProfile() {
         {user ? (
           <>
             <div className="flex items-center gap-6 mb-10">
+
+              {/* Avatar User */}
               <div className="avatar relative w-16 h-16">
                 <div className="w-16 h-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
                   <img src="/images/sosairo-logo2.png" alt="User Avatar" className="w-full h-full object-cover" />
@@ -95,11 +97,15 @@ export default function MyProfile() {
                   ✎
                 </button>
               </div>
+
+              {/* Display Name & Username User */}
               <div>
                 <h2 className="text-xl font-semibold">{user.name}</h2>
                 <p className="text-sm text-gray-400">{user.username}</p>
               </div>
             </div>
+
+            {/* Display Email dan About Me User */}
             <div className="space-y-6">
               <div className="form-control">
                 <label className="label">Email</label>
@@ -111,7 +117,7 @@ export default function MyProfile() {
               </div>
               <button className="btn w-full" onClick={() => document.getElementById('my_modal_5').showModal()}>Edit</button>
 
-              {/* Modal */}
+              {/* Input Modal Edit */}
               <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                   <h3 className="font-bold text-lg mb-4">Edit Profile</h3>
