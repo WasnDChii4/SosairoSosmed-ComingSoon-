@@ -93,10 +93,25 @@ export default function MyProfile() {
                 <div className="w-16 h-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
                   <img src="/images/sosairo-logo2.png" alt="User Avatar" className="w-full h-full object-cover" />
                 </div>
-                <button className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-xs shadow transition-opacity duration-200" onClick={() => document.getElementById('editPhotoModal').showModal()} title="Edit Photo">
+                <button className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-xs shadow transition-opacity duration-200" onClick={() => document.getElementById('editAvatarModal').showModal()} title="Edit Avatar">
                   ✎
                 </button>
               </div>
+
+              {/* Modal Edit Avatar */}
+              <dialog id='editAvatarModal' className='modal'>
+                <div className='modal-box'>
+                  <h3 className='font-bold text-lg mb-4'>Edit Avatar</h3>
+                  <input type="file" accept="image/*" className="file-input w-full mb-4" />
+                  <div className="modal-action">
+                    <form method="dialog" className="flex gap-2">
+                      <button className="btn" type="submit">Cancel</button>
+                      <button type="button" className="btn btn-primary">Save</button>
+                    </form>
+                  </div>
+                </div>
+                <form method='dialog' className='modal-backdrop'><button>Close</button></form>
+              </dialog>
 
               {/* Display Name & Username User */}
               <div>
@@ -115,39 +130,41 @@ export default function MyProfile() {
                 <label className="label">About Me</label>
                 <textarea value={user.about_me} className="textarea w-full" disabled />
               </div>
-              <button className="btn w-full" onClick={() => document.getElementById('my_modal_5').showModal()}>Edit</button>
+              <button className="btn w-full" onClick={() => document.getElementById('editInfoUser').showModal()}>Edit</button>
 
-              {/* Input Modal Edit */}
-              <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                <div className="modal-box">
-                  <h3 className="font-bold text-lg mb-4">Edit Profile</h3>
-                  <div className="space-y-4">
-                    <div className="form-control">
-                      <label className="label">Name</label>
-                      <input type="text" name="name" value={editData.name} onChange={handleEditChange} className="input w-full" />
-                    </div>
-                    <div className="form-control">
-                      <label className="label">Username</label>
-                      <input type="text" name="username" value={editData.username} onChange={handleEditChange} className="input w-full" />
-                    </div>
-                    <div className="form-control">
-                      <label className="label">Email</label>
-                      <input type="text" name="email" value={editData.email} onChange={handleEditChange} className="input w-full" />
-                    </div>
-                    <div className="form-control">
-                      <label className="label">About Me</label>
-                      <textarea name="about_me" value={editData.about_me} onChange={handleEditChange} className="textarea w-full" />
-                    </div>
+            </div>
+
+            {/* Modal Input User */}
+            <dialog id='editInfoUser' className='modal'>
+              <div className="modal-box">
+                <h3 className="font-bold text-lg mb-4">Edit Profile</h3>
+                <div className="space-y-4">
+                  <div className="form-control space-y-2">
+                    <label className="label">Name</label>
+                    <input type="text" name="name" value={editData.name} onChange={handleEditChange} className="input w-full" />
                   </div>
-                  <div className="modal-action">
-                    <form method="dialog" className="flex gap-2">
-                      <button className="btn" type="submit">Cancel</button>
-                      <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>Save</button>
-                    </form>
+                  <div className="form-control space-y-2">
+                    <label className="label">Username</label>
+                    <input type="text" name="username" value={editData.username} onChange={handleEditChange} className="input w-full" />
+                  </div>
+                  <div className="form-control space-y-2">
+                    <label className="label">Email</label>
+                    <input type="text" name="email" value={editData.email} onChange={handleEditChange} className="input w-full" />
+                  </div>
+                  <div className="form-control space-y-2">
+                    <label className="label">About Me</label>
+                    <textarea name="about_me" value={editData.about_me} onChange={handleEditChange} className="textarea w-full" />
                   </div>
                 </div>
-              </dialog>
-            </div>
+                <div className="modal-action">
+                  <form method="dialog" className="flex gap-2">
+                    <button className="btn" type="submit">Cancel</button>
+                    <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>Save</button>
+                  </form>
+                </div>
+              </div>
+              <form method='dialog' className='modal-backdrop'><button>Close</button></form>
+            </dialog>
           </>
         ) : (
           <div className='flex justify-center items-center min-h-[150px]'>
