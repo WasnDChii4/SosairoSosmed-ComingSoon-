@@ -70,7 +70,7 @@ export default function MyProfile() {
 
       await fetchProfile();
 
-      document.getElementById('my_modal_5').close();
+      document.getElementById('editInfoUser').close();
     } catch (error) {
       console.error('Update failed:', error);
     }
@@ -102,13 +102,18 @@ export default function MyProfile() {
               <dialog id='editAvatarModal' className='modal'>
                 <div className='modal-box'>
                   <h3 className='font-bold text-lg mb-4'>Edit Avatar</h3>
-                  <input type="file" accept="image/*" className="file-input w-full mb-4" />
-                  <div className="modal-action">
-                    <form method="dialog" className="flex gap-2">
-                      <button className="btn" type="submit">Cancel</button>
-                      <button type="button" className="btn btn-primary">Save</button>
-                    </form>
-                  </div>
+                  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
+                      </svg>
+                      <p className="mb-1 text-sm text-gray-500">
+                        <span className="font-semibold">Klik untuk unggah</span>
+                      </p>
+                      <p className="text-xs text-gray-400">PNG, JPG, JPEG</p>
+                    </div>
+                    <input type="file" accept="image/*" className="hidden" />
+                  </label>
                 </div>
                 <form method='dialog' className='modal-backdrop'><button>Close</button></form>
               </dialog>
