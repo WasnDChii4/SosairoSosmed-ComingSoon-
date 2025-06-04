@@ -36,7 +36,7 @@ export default function MainSidebarLeft() {
     <div className="flex flex-col items-center py-4 space-y-4">
       {/* Logo */}
       <div className="tooltip tooltip-right">
-        <div className=" tooltip-content bg-base-300 shadow-md shadow-black">
+        <div className="tooltip-content bg-base-300 shadow-md shadow-black">
           <div className="text-sm">Direct Message</div>
         </div>
         <button onClick={() => navigate('/channels/friends')} className="w-12 h-12 btn btn-circle btn-sm bg-primary hover:bg-primary-focus">
@@ -67,14 +67,14 @@ export default function MainSidebarLeft() {
         <div className="tooltip-content bg-base-300 shadow-md shadow-black">
           <div className="text-sm">Add Server</div>
         </div>
-        <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-success-focus hover:bg-primary" onClick={() => document.getElementById("my_modal_server").showModal()}>
+        <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-success-focus hover:bg-primary" onClick={() => document.getElementById("addServer").showModal()}>
           <FaPlus size={18} />
         </button>
       </div>
     </div>
 
     {/* Dialog (tetap di luar scroll) */}
-    <dialog id="my_modal_server" className="modal">
+    <dialog id="addServer" className="modal">
       <div className="modal-box">
         <label className="input w-full">
           <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -83,7 +83,7 @@ export default function MainSidebarLeft() {
               <path d="m21 21-4.3-4.3"></path>
             </g>
           </svg>
-          <input type="search" className="grow w-full" placeholder="Where would you like to go?" />
+          <input type="search" className="grow w-full" placeholder="" />
         </label>
       </div>
       <form method="dialog" className="modal-backdrop">
