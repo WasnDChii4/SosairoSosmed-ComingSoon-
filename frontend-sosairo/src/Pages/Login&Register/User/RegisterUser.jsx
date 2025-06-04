@@ -36,7 +36,7 @@ export default function RegisterUser() {
       
       Swal.fire({
         icon: 'success',
-        title: 'Registrasi Berhasil!dwdaw',
+        title: 'Registrasi Berhasil!',
         text: `Selamat datang, ${response.data.user.name}!`,
         confirmButtonText: 'OK'
       }).then(() => {
