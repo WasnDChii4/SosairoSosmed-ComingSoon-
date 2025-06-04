@@ -6,6 +6,7 @@ import Friends from './Pages/Friends';
 import RegisterUser from './Pages/Login&Register/User/RegisterUser';
 import LoginUser from './Pages/Login&Register/User/LoginUser';
 import MyProfile from './Pages/SettingsBar/MyProfile';
+import ProtectedRoute from './Middleware/ProtectedRoute';
 
 export default function App() {
   return (
@@ -14,8 +15,8 @@ export default function App() {
         <Route path='/registerSosairo' element={<RegisterUser />}></Route>
         <Route path='/loginSosairo' element={<LoginUser />}></Route>
         <Route path='/' element={<Welcome />}></Route>
-        <Route path='/channels/friends' element={<Friends />}></Route>
-        <Route path='/settings/myProfile' element={<MyProfile />}></Route>
+        <Route path='/channels/friends' element={<ProtectedRoute><Friends /></ProtectedRoute>}></Route>
+        <Route path='/settings/myProfile' element={<ProtectedRoute><MyProfile /></ProtectedRoute>}></Route>
         <Route path='*' element={<NotFound />}></Route>
       </Routes>
     </Router>

@@ -18,13 +18,11 @@ export default function MainSidebarLeft() {
 
   const handleLogout = async () => {
     try {
-      // await axiosCLient.get('http://127.0.0.1:8000/sanctum/csrf-cookie', {
-      //   withCredentials: true
-      // });
-
       await axiosCLient.post("http://127.0.0.1:8000/api/logoutSosairo", {}, {
         withCredentials: true
       });
+
+      localStorage.removeItem('token')
 
       navigate("/loginSosairo"); 
     } catch (error) {
