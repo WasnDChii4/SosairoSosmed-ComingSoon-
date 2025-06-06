@@ -50,27 +50,54 @@ export default function MainSidebarLeft() {
       {/* Server list */}
       {servers.length > 0 && (
         servers.map((server, index) => (
-          <button key={index} className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-accent-focus" title={server.name}>
-            {server.icon ? (
-              <img src={server.icon} alt={server.name} className="object-cover w-6 h-6 rounded-full" />
-            ) : (
-              <span className="text-xs font-bold">
-                {server.name.charAt(0).toUpperCase()}
-              </span>
-            )}
-          </button>
+          <div key={index} className="tooltip tooltip-right" data-tip={server.name}>
+            <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-accent-focus">
+              {server.icon ? (
+                <img src={server.icon} alt={server.name} className="object-cover w-6 h-6 rounded-full" />
+              ) : (
+                <span className="text-xs font-bold">
+                  {server.name.charAt(0).toUpperCase()}
+                </span>
+              )}
+            </button>
+          </div>
         ))
       )}
 
       {/* Add server */}
-      <div className="tooltip tooltip-right">
-        <div className="tooltip-content bg-base-300 shadow-md shadow-black">
-          <div className="text-sm">Add Server</div>
-        </div>
+      <div className="tooltip tooltip-right" data-tip="Add Server">
         <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-success-focus hover:bg-primary" onClick={() => document.getElementById("addServer").showModal()}>
           <FaPlus size={18} />
         </button>
       </div>
+      <dialog id="addServer" className="modal">
+        <div className="modal-box w-96">
+          <h3 className="font-bold text-lg mb-4">Add New Server</h3>
+          <form method="dialog" className="space-y-4">
+            {/* Server Name */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Server Name</span>
+              </label>
+              <input type="text" placeholder="Enter server name" className="input input-bordered w-full" />
+            </div>
+
+            {/* Server Icon */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Server Icon</span>
+              </label>
+              <input type="file" accept="image/*" className="file-input file-input-bordered w-full" />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="modal-action flex justify-between">
+              <button className="btn btn-error text-white" formMethod="dialog">Cancel</button>
+              <button className="btn btn-primary" type="submit">Add</button>
+            </div>
+          </form>
+        </div>
+      </dialog>
     </div>
 
     {/* Dialog (tetap di luar scroll) */}
