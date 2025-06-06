@@ -87,11 +87,22 @@ export default function MainSidebarLeft() {
               <label className="label">
                 <span className="label-text">Server Icon</span>
               </label>
-              <input type="file" accept="image/*" className="file-input file-input-bordered w-full" />
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg className="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
+                  </svg>
+                  <p className="mb-1 text-sm text-gray-500">
+                    <span className="font-semibold">Klik untuk unggah</span>
+                  </p>
+                  <p className="text-xs text-gray-400">PNG, JPG, JPEG</p>
+                </div>
+                <input type="file" accept="image/*" className="hidden" />
+              </label>
             </div>
 
             {/* Action Buttons */}
-            <div className="modal-action flex justify-between">
+            <div className="modal-action flex justify-between pt-4">
               <button className="btn btn-error text-white" formMethod="dialog">Cancel</button>
               <button className="btn btn-primary" type="submit">Add</button>
             </div>
