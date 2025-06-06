@@ -75,7 +75,7 @@ export default function MainSidebarLeft() {
           <h3 className="font-bold text-lg mb-4">Add New Server</h3>
           <form method="dialog" className="space-y-4">
             {/* Server Name */}
-            <div className="form-control">
+            <div className="form-control space-y-2">
               <label className="label">
                 <span className="label-text">Server Name</span>
               </label>
@@ -83,7 +83,7 @@ export default function MainSidebarLeft() {
             </div>
 
             {/* Server Icon */}
-            <div className="form-control">
+            <div className="form-control space-y-2">
               <label className="label">
                 <span className="label-text">Server Icon</span>
               </label>
