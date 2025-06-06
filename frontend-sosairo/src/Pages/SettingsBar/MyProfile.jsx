@@ -163,7 +163,7 @@ export default function MyProfile() {
                 </div>
                 <div className="modal-action">
                   <form method="dialog" className="flex gap-2">
-                    <button className="btn" type="submit">Cancel</button>
+                    <button className="btn btn-error text-white" type="submit">Cancel</button>
                     <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>Save</button>
                   </form>
                 </div>
