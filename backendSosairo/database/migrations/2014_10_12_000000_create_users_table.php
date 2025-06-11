@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('avatar')->nullable();
+            $table->string('avatar')->default('/images/sosairo-logo2.png')->nullable();
             $table->string('status')->default('offline');
             $table->text('about_me')->nullable();
             $table->timestamp('last_seen')->nullable();

@@ -6,7 +6,7 @@ import SettingsLayoutPage from '../../Layout/SettingsLayoutPage';
 export default function MyProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [editData, setEditData] = useState({ name: '', username: '', email: '', about_me: '' });
+  const [editData, setEditData] = useState({ name: '', username: '', email: '', about_me: '', avatar: null, });
 
   const goBackChannels = () => navigate(-1);
 
@@ -30,6 +30,7 @@ export default function MyProfile() {
         username: response.data.username || '',
         email: response.data.email || '',
         about_me: response.data.about_me || '',
+        avatar: response.data.avatar || null,
       });
     } catch (error) {
       console.error('Failed to fetch user:', error);
@@ -91,11 +92,17 @@ export default function MyProfile() {
               {/* Avatar User */}
               <div className="avatar relative w-16 h-16">
                 <div className="w-16 h-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
-                  <img src="/images/sosairo-logo2.png" alt="User Avatar" className="w-full h-full object-cover" />
+                  <img src={user.avatar} alt="User Avatar" className="w-full h-full object-cover" />
                 </div>
                 <button className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-xs shadow transition-opacity duration-200" onClick={() => document.getElementById('editAvatarModal').showModal()} title="Edit Avatar">
                   ✎
                 </button>
+              </div>
+
+              {/* Display Name & Username User */}
+              <div>
+                <h2 className="text-xl font-semibold">{user.name}</h2>
+                <p className="text-sm text-gray-400">{user.username}</p>
               </div>
 
               {/* Modal Edit Avatar */}
@@ -117,12 +124,6 @@ export default function MyProfile() {
                 </div>
                 <form method='dialog' className='modal-backdrop'><button>Close</button></form>
               </dialog>
-
-              {/* Display Name & Username User */}
-              <div>
-                <h2 className="text-xl font-semibold">{user.name}</h2>
-                <p className="text-sm text-gray-400">{user.username}</p>
-              </div>
             </div>
 
             {/* Display Email dan About Me User */}

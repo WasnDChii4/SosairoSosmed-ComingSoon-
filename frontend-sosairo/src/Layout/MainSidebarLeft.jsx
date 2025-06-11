@@ -81,7 +81,6 @@ export default function MainSidebarLeft() {
               </label>
               <input type="text" placeholder="Enter server name" className="input input-bordered w-full" />
             </div>
-
             {/* Server Icon */}
             <div className="form-control space-y-2">
               <label className="label">
@@ -100,7 +99,6 @@ export default function MainSidebarLeft() {
                 <input type="file" accept="image/*" className="hidden" />
               </label>
             </div>
-
             {/* Action Buttons */}
             <div className="modal-action flex justify-between pt-4">
               <button className="btn btn-error text-white" formMethod="dialog">Cancel</button>
@@ -108,26 +106,9 @@ export default function MainSidebarLeft() {
             </div>
           </form>
         </div>
+        <form method='dialog' className='modal-backdrop'><button>Close</button></form>
       </dialog>
     </div>
-
-    {/* Dialog (tetap di luar scroll) */}
-    <dialog id="addServer" className="modal">
-      <div className="modal-box">
-        <label className="input w-full">
-          <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </g>
-          </svg>
-          <input type="search" className="grow w-full" placeholder="" />
-        </label>
-      </div>
-      <form method="dialog" className="modal-backdrop">
-        <button>Close</button>
-      </form>
-    </dialog>
 
     {/* Bagian bawah sidebar */}
     <div className="flex flex-col items-center mb-2 space-y-3 space-x-5 dropdown dropdown-right dropdown-end">
