@@ -1,12 +1,19 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axiosCLient from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import Cropper from 'react-easy-crop';
+import getCroppedImg from '../../Utility/cropImage';
 import SettingsLayoutPage from '../../Layout/SettingsLayoutPage';
 
 export default function MyProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [editData, setEditData] = useState({ name: '', username: '', email: '', about_me: '', avatar: null, });
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setcroppedAreaPixels] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
 
   const goBackChannels = () => navigate(-1);
 
@@ -77,6 +84,41 @@ export default function MyProfile() {
     }
   };
 
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setcroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedFile(reader.result);
+        document.getElementById('editAvatarModal').showModal();
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCropImage = async () => {
+    const cropped = await getCroppedImg(selectedFile, croppedAreaPixels);
+    setCroppedImage(cropped);
+    setEditData({ ...editData, avatar: cropped });
+    document.getElementById('editAvatarModal').close();
+  }
+
+  const handlePreviewCrop = async () => {
+    const cropped = await getCroppedImg(selectedFile, croppedAreaPixels);
+    setCroppedImage(cropped);
+  };
+  
+  const handleSaveCroppedImage = () => {
+    if (croppedImage) {
+      setEditData({ ...editData, avatar: croppedImage });
+      document.getElementById('editAvatarModal').close();
+    }
+  };  
+
   return (
     <SettingsLayoutPage>
       <div className="fixed left-64 top-0 right-0 z-50 flex items-center justify-between px-6 py-4 shadow">
@@ -109,18 +151,48 @@ export default function MyProfile() {
               <dialog id='editAvatarModal' className='modal'>
                 <div className='modal-box'>
                   <h3 className='font-bold text-lg mb-4'>Edit Avatar</h3>
-                  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition">
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg className="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
-                      </svg>
-                      <p className="mb-1 text-sm text-gray-500">
-                        <span className="font-semibold">Klik untuk unggah</span>
-                      </p>
-                      <p className="text-xs text-gray-400">PNG, JPG, JPEG</p>
+                  {!selectedFile ? (
+                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg className="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
+                        </svg>
+                        <p className="mb-1 text-sm text-gray-500"><span className="font-semibold">Klik untuk unggah</span></p>
+                        <p className="text-xs text-gray-400">PNG, JPG, JPEG</p>
+                      </div>
+                      <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+                    </label>
+                  ) : (
+                    <div className="relative w-full h-60 bg-gray-200">
+                      <Cropper
+                        image={selectedFile}
+                        crop={crop}
+                        zoom={zoom}
+                        aspect={1}
+                        onCropChange={setCrop}
+                        onZoomChange={setZoom}
+                        onCropComplete={onCropComplete}
+                      />
                     </div>
-                    <input type="file" accept="image/*" className="hidden" />
-                  </label>
+                  )}
+                  {selectedFile && (
+                    <>
+                      <div className="flex justify-end gap-2 mt-4">
+                        <button className="btn btn-outline" onClick={() => { setSelectedFile(null); setCroppedImage(null); }}>Cancel</button>
+                        <button className="btn btn-secondary" onClick={handlePreviewCrop}>Preview Crop</button>
+                        {croppedImage && (
+                          <button className="btn btn-primary" onClick={handleSaveCroppedImage}>Save Crop</button>
+                        )}
+                      </div>
+
+                      {croppedImage && (
+                        <div className="mt-4">
+                          <p className="text-sm mb-1">Preview:</p>
+                          <img src={croppedImage} alt="Cropped Avatar" className="w-20 h-20 rounded-full object-cover" />
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
                 <form method='dialog' className='modal-backdrop'><button>Close</button></form>
               </dialog>

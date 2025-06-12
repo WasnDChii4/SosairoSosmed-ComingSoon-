@@ -71,7 +71,7 @@ export default function MainSidebarLeft() {
         </button>
       </div>
       <dialog id="addServer" className="modal">
-        <div className="modal-box w-96">
+        <div className="modal-box">
           <h3 className="font-bold text-lg mb-4">Add New Server</h3>
           <form method="dialog" className="space-y-4">
             {/* Server Name */}
@@ -117,7 +117,7 @@ export default function MainSidebarLeft() {
           <div className="text-sm">Menu</div>
         </div>
         <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-primary">
-          <FaEllipsisV size={16} />
+          <FaEllipsisV size={16} /> 
         </button>
       </div>
       <ul tabIndex={0} className="dropdown-content menu bg-slate-700 rounded-box z-1 w-40 p-2 shadow-sm">
