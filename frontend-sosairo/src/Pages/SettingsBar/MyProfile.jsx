@@ -68,7 +68,7 @@ export default function MyProfile() {
   const handleSaveChanges = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axiosCLient.put('/api/user/update', editData, {
+      await axiosCLient.put('/api/user/updateProfile', editData, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
@@ -100,24 +100,39 @@ export default function MyProfile() {
     }
   };
 
-  const handleCropImage = async () => {
-    const cropped = await getCroppedImg(selectedFile, croppedAreaPixels);
-    setCroppedImage(cropped);
-    setEditData({ ...editData, avatar: cropped });
-    document.getElementById('editAvatarModal').close();
+  const handleSaveCroppedImage = async () => {
+    try {
+      const croppedBlob = await getCroppedImg(selectedFile, croppedAreaPixels, 'blob');
+  
+      const formData = new FormData();
+      formData.append('avatar', croppedBlob);
+  
+      const token = localStorage.getItem('token');
+      await axiosCLient.post('/api/user/updateAvatar', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });
+  
+      await fetchProfile();
+  
+      document.getElementById('editAvatarModal').close();
+      setSelectedFile(null);
+      setCroppedImage(null);
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
+    } catch (error) {
+      console.error("Failed to crop and update avatar:", error);
+    }
   }
 
   const handlePreviewCrop = async () => {
     const cropped = await getCroppedImg(selectedFile, croppedAreaPixels);
     setCroppedImage(cropped);
   };
-  
-  const handleSaveCroppedImage = () => {
-    if (croppedImage) {
-      setEditData({ ...editData, avatar: croppedImage });
-      document.getElementById('editAvatarModal').close();
-    }
-  };  
 
   return (
     <SettingsLayoutPage>
@@ -134,7 +149,7 @@ export default function MyProfile() {
               {/* Avatar User */}
               <div className="avatar relative w-16 h-16">
                 <div className="w-16 h-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
-                  <img src={user.avatar} alt="User Avatar" className="w-full h-full object-cover" />
+                  <img src={`http://localhost:8000/${user.avatar}`} alt="User Avatar" className="w-full h-full object-cover" />
                 </div>
                 <button className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-xs shadow transition-opacity duration-200" onClick={() => document.getElementById('editAvatarModal').showModal()} title="Edit Avatar">
                   ✎

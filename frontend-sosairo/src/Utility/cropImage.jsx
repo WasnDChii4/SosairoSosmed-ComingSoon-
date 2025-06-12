@@ -1,28 +1,34 @@
 import { createImage } from './loadImage';
 
-export default async function getCropped(imageSrc, crop) {
+const getCroppedImg = async (imageSrc, pixelCrop, returnType = 'base64') => {
   const image = await createImage(imageSrc);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
-  canvas.width = crop.width;
-  canvas.height = crop.height;
+  canvas.width = pixelCrop.width;
+  canvas.height = pixelCrop.height;
 
   ctx.drawImage(
     image,
-    crop.x,
-    crop.y,
-    crop.width,
-    crop.height,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
     0,
     0,
-    crop.width,
-    crop.height,
+    pixelCrop.width,
+    pixelCrop.height
   );
 
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve(URL.createObjectURL(blob));
-    }, 'image/jpeg');
-  });
-}
+  if (returnType === 'blob') {
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        resolve(blob);
+      }, 'image/jpeg');
+    });
+  }
+
+  return canvas.toDataURL('image/jpeg');
+};
+
+export default getCroppedImg;

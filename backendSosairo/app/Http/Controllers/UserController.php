@@ -17,27 +17,24 @@ class UserController extends Controller
             'password' => 'required|string|min:6|max:12|confirmed',
         ]);
 
-        $username = Str::slug($request->name); //Mengubah nama menjadi format slug
-        $discriminator = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT); //Membuat angka acak 4 digit
+        $username = Str::slug($request->name);
+        $discriminator = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-        //Digunakan untuk mengacak ulang angka discriminator, agar tidak sama ketika username sama
         while (User::where('username', $username)->where('discriminator', $discriminator)->exists()) {
             $discriminator = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-        };
+        }
 
-        //Membuat user baru dan menyimpan ke database
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'username' => $username,
             'discriminator' => $discriminator,
+            'avatar' => 'storage/avatars/sosairo-logo1.png',
         ]);
 
-        //Token untuk sanctum
         $token = $user->createToken('authToken')->plainTextToken;
 
-        //Mengirim response ke frontend
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,
@@ -78,7 +75,7 @@ class UserController extends Controller
         return response()->json(['message' => 'Logged out']);
     }
 
-    public function update(Request $request) {
+    public function updateProfile(Request $request) {
         $user = auth()->user();
 
         $validated = $request->validate([
@@ -92,4 +89,23 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+
+    // public function updateAvatar(Request $request) {
+    //     $request->validate([
+    //         'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    //     ]);
+
+    //     $user = auth()->user();
+
+    //     if ($request->hasFile('avatar')) {
+    //         $avatar = $request->file('avatar');
+    //         $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
+    //         $avatar->storeAs('public/avatars', $avatarName);
+
+    //         $user->avatar = $avatarName;
+    //         $user->save();
+    //     }
+
+    //     return response()->json(['message' => 'Avatar updated successfully']);
+    // }
 }
