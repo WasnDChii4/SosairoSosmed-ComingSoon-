@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -90,22 +91,28 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // public function updateAvatar(Request $request) {
-    //     $request->validate([
-    //         'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-    //     ]);
+    public function updateAvatar(Request $request) {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-    //     $user = auth()->user();
+        $user = auth()->user();
 
-    //     if ($request->hasFile('avatar')) {
-    //         $avatar = $request->file('avatar');
-    //         $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
-    //         $avatar->storeAs('public/avatars', $avatarName);
+        if ($user->avatar && Storage::disk('public')->exists(str_replace('storage/', '', $user->avatar))) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $user->avatar));
+        }
 
-    //         $user->avatar = $avatarName;
-    //         $user->save();
-    //     }
+        $avatar = $request->file('avatar');
+        $filename = 'avatars/' . Str::uuid() . '.' . $avatar->getClientOriginalExtension();
 
-    //     return response()->json(['message' => 'Avatar updated successfully']);
-    // }
+        Storage::disk('public')->put($filename, file_get_contents($avatar));
+
+        $user->avatar = 'storage/' . $filename;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Avatar updated successfully.',
+            'avatar' => $user->avatar,
+        ]);
+    }
 }

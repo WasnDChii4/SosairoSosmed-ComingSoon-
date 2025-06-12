@@ -1,6 +1,6 @@
-import { createImage } from './loadImage';
+import { createImage, getRadianAngle } from './loadImage';
 
-const getCroppedImg = async (imageSrc, pixelCrop, returnType = 'base64') => {
+export default async function cropImage(imageSrc, pixelCrop, returnType = 'base64') {
   const image = await createImage(imageSrc);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -20,15 +20,11 @@ const getCroppedImg = async (imageSrc, pixelCrop, returnType = 'base64') => {
     pixelCrop.height
   );
 
-  if (returnType === 'blob') {
-    return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        resolve(blob);
-      }, 'image/jpeg');
-    });
-  }
-
-  return canvas.toDataURL('image/jpeg');
-};
-
-export default getCroppedImg;
+  return new Promise((resolve) => {
+    if (returnType === 'blob') {
+      canvas.toBlob((blob) => resolve(blob), 'image/jpeg');
+    } else {
+      resolve(canvas.toDataURL('image/jpeg'));
+    }
+  });
+}

@@ -12,7 +12,7 @@ export default function MyProfile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setcroppedAreaPixels] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
 
   const goBackChannels = () => navigate(-1);
@@ -85,7 +85,7 @@ export default function MyProfile() {
   };
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    setcroppedAreaPixels(croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
   const handleFileChange = async (e) => {
@@ -105,7 +105,7 @@ export default function MyProfile() {
       const croppedBlob = await getCroppedImg(selectedFile, croppedAreaPixels, 'blob');
   
       const formData = new FormData();
-      formData.append('avatar', croppedBlob);
+      formData.append('avatar', croppedBlob, 'avatar.jpg');
   
       const token = localStorage.getItem('token');
       await axiosCLient.post('/api/user/updateAvatar', formData, {
@@ -118,7 +118,6 @@ export default function MyProfile() {
       });
   
       await fetchProfile();
-  
       document.getElementById('editAvatarModal').close();
       setSelectedFile(null);
       setCroppedImage(null);
