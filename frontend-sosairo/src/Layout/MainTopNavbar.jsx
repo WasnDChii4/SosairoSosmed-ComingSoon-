@@ -18,7 +18,7 @@ export default function MainTopNavbar() {
       <h1 className="absolute left-1/2 -translate-x-1/2 text-base text-slate-500 font-semibold">
         {title}
       </h1>
-      <div className="gap-4">
+      {/* <div className="gap-4">
         <div className="tooltip tooltip-bottom">
           <div className="tooltip-content bg-base-300 shadow-md shadow-black">
             <div className="text-sm">Inbox</div>
@@ -31,7 +31,7 @@ export default function MainTopNavbar() {
             </div>
           <button className="text-xl btn btn-ghost btn-sm m-2.5"><FaQuestionCircle /></button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

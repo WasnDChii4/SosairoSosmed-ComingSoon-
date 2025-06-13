@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RecentAvatars;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -104,15 +105,26 @@ class UserController extends Controller
 
         $avatar = $request->file('avatar');
         $filename = 'avatars/' . Str::uuid() . '.' . $avatar->getClientOriginalExtension();
-
         Storage::disk('public')->put($filename, file_get_contents($avatar));
 
         $user->avatar = 'storage/' . $filename;
         $user->save();
 
+        RecentAvatars::create([
+            'user_id' => $user->id,
+            'path' => $user->avatar,
+        ]);
+
         return response()->json([
             'message' => 'Avatar updated successfully.',
             'avatar' => $user->avatar,
         ]);
+    }
+
+    public function deleteRecentAvatars() {
+        $user = auth()->user();
+        $avatars = $user->avatars()->latest()->take(6)->get();
+
+        return response()->json($avatars);
     }
 }

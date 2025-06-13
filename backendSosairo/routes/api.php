@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/updateProfile', [UserController::class, 'updateProfile']);
     Route::post('/user/updateAvatar', [UserController::class, 'updateAvatar']);
+
+    Route::get('/user/deleteRecentAvatars', [UserController::class, 'deleteRecentAvatars']);
 });
 
 Route::middleware('auth:sanctum')->get('/getUserProfile', [UserController::class, 'profile']);

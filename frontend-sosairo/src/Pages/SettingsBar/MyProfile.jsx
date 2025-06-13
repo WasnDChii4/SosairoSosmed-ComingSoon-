@@ -178,15 +178,7 @@ export default function MyProfile() {
                     </label>
                   ) : (
                     <div className="relative w-full h-60 bg-gray-200">
-                      <Cropper
-                        image={selectedFile}
-                        crop={crop}
-                        zoom={zoom}
-                        aspect={1}
-                        onCropChange={setCrop}
-                        onZoomChange={setZoom}
-                        onCropComplete={onCropComplete}
-                      />
+                      <Cropper image={selectedFile} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />
                     </div>
                   )}
                   {selectedFile && (
