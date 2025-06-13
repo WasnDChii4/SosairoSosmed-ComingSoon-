@@ -7,13 +7,6 @@ export default function MainSidebarLeft() {
   const navigate = useNavigate();
   const [servers, setServers] = useState([]);
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/api/servers")
-  //     .then((res) => res.json())
-  //     .then((data) => setServers(data))
-  //     .catch(() => setServers([]));
-  // }, []);
-
   const goToSettings = () => navigate('/settings/myProfile');
 
   const handleLogout = async () => {
@@ -74,13 +67,6 @@ export default function MainSidebarLeft() {
         <div className="modal-box">
           <h3 className="font-bold text-lg mb-4">Add New Server</h3>
           <form method="dialog" className="space-y-4">
-            {/* Server Name */}
-            <div className="form-control space-y-2">
-              <label className="label">
-                <span className="label-text">Server Name</span>
-              </label>
-              <input type="text" placeholder="Enter server name" className="input input-bordered w-full" />
-            </div>
             {/* Server Icon */}
             <div className="form-control space-y-2">
               <label className="label">
@@ -98,6 +84,13 @@ export default function MainSidebarLeft() {
                 </div>
                 <input type="file" accept="image/*" className="hidden" />
               </label>
+            </div>
+            {/* Server Name */}
+            <div className="form-control space-y-2">
+              <label className="label">
+                <span className="label-text">Server Name</span>
+              </label>
+              <input type="text" placeholder="Enter server name" className="input input-bordered w-full" />
             </div>
             {/* Action Buttons */}
             <div className="modal-action flex justify-between pt-4">
