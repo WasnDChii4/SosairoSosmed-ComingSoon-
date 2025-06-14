@@ -36,18 +36,17 @@ class Server extends Model
         });
     }
 
+    public function channels() {
+        return $this->hasMany(Channel::class);
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function channels()
-    {
-        return $this->hasMany(Channel::class);
-    }
-
     public function members()
     {
-        return $this->belongsToMany(User::class, 'server_user');
+        return $this->belongsToMany(User::class, 'server_users', 'servers_id', 'users_id');
     }
 }

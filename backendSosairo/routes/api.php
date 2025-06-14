@@ -29,6 +29,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum')->get('/getUserProfile', [UserController::class, 'profile']);
 
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/servers', [UserController::class, 'storeServer']);
+    Route::get('/servers', [UserController::class, 'getServer']);
+});
+
 Route::get('/registerSosairo', function (Request $request) {
     return response()->json([
         'message' => 'GET method not allowed for this route. Please use POST.'

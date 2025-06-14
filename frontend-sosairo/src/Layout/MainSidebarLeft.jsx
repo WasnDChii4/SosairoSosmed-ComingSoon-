@@ -9,6 +9,7 @@ export default function MainSidebarLeft() {
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
   const dialogRef = useRef(null);
+  const [serverName, setServerName] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -39,6 +40,68 @@ export default function MainSidebarLeft() {
       dialog.removeEventListener('close', handleClose);
     };
   }, []);
+
+  const handleAddServer = async (e) => {
+    e.preventDefault();
+
+    if (!serverName) return alert("Nama server wajib diisi");
+  
+    try {
+      const formData = new FormData();
+      formData.append("name", serverName);
+      if (fileInputRef.current?.files[0]) {
+        formData.append("icon", fileInputRef.current.files[0]);
+      }
+  
+      // Ambil token dari localStorage
+      const token = localStorage.getItem("token");
+  
+      const res = await axiosCLient.post("/api/servers", formData, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
+        }
+      });
+  
+      // Tambahkan server baru ke daftar server
+      setServers(prev => [...prev, res.data.server]);
+  
+      // Reset form
+      setServerName("");
+      setPreview(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      dialogRef.current?.close();
+    } catch (error) {
+      console.error("Gagal tambah server:", error);
+    
+      if (error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        console.error("Detail error 422:", errors);
+    
+        alert(Object.values(errors).flat().join("\n"));
+      } else {
+        alert("Gagal menambahkan server");
+      }
+    }    
+  };
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axiosCLient.get("/api/servers", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setServers(res.data.servers);
+      } catch (error) {
+        console.error("Gagal mengambil daftar server:", error);
+      }
+    };
+  
+    fetchServers();
+  }, []);  
 
   const goToSettings = () => navigate('/settings/myProfile');
 
@@ -77,9 +140,13 @@ export default function MainSidebarLeft() {
       {servers.length > 0 && (
         servers.map((server, index) => (
           <div key={index} className="tooltip tooltip-right" data-tip={server.name}>
-            <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-accent-focus">
+            <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100   p-0 overflow-hidden">
               {server.icon ? (
-                <img src={server.icon} alt={server.name} className="object-cover w-6 h-6 rounded-full" />
+                <img
+                  src={server.icon}
+                  alt={server.name}
+                  className="w-full h-full object-cover rounded-full"
+                />
               ) : (
                 <span className="text-xs font-bold">
                   {server.name.charAt(0).toUpperCase()}
@@ -129,11 +196,7 @@ export default function MainSidebarLeft() {
               <label className="label">
                 <span className="label-text">Server Name</span>
               </label>
-              <input
-                type="text"
-                placeholder="Enter server name"
-                className="input input-bordered w-full"
-              />
+              <input type="text" placeholder="Enter server name" className="input input-bordered w-full" value={serverName} onChange={(e) => setServerName(e.target.value)} />
             </div>
 
             {/* Action Buttons */}
@@ -141,7 +204,7 @@ export default function MainSidebarLeft() {
               <button className="btn btn-error text-white" formMethod="dialog">
                 Cancel
               </button>
-              <button className="btn btn-primary" type="submit">
+              <button type="button" className="btn btn-primary" onClick={handleAddServer}>
                 Add
               </button>
             </div>

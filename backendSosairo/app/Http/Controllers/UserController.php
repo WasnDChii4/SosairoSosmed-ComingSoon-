@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RecentAvatars;
+use App\Models\Server;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -99,10 +100,18 @@ class UserController extends Controller
 
         $user = auth()->user();
 
-        if ($user->avatar && Storage::disk('public')->exists(str_replace('storage/', '', $user->avatar))) {
-            Storage::disk('public')->delete(str_replace('storage/', '', $user->avatar));
+        // Ambil nama file avatar saat ini
+        $currentAvatar = $user->avatar;
+
+        // Cek apakah avatar sekarang bukan file default sosairo-logo1.png
+        $isDefaultAvatar = $currentAvatar && str_contains($currentAvatar, 'sosairo-logo1.png');
+
+        // Hapus avatar lama jika bukan avatar default dan file-nya ada di storage
+        if (!$isDefaultAvatar && $currentAvatar && Storage::disk('public')->exists(str_replace('storage/', '', $currentAvatar))) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $currentAvatar));
         }
 
+        // Simpan avatar baru
         $avatar = $request->file('avatar');
         $filename = 'avatars/' . Str::uuid() . '.' . $avatar->getClientOriginalExtension();
         Storage::disk('public')->put($filename, file_get_contents($avatar));
@@ -110,6 +119,7 @@ class UserController extends Controller
         $user->avatar = 'storage/' . $filename;
         $user->save();
 
+        // Catat di tabel recent avatars (jika digunakan)
         RecentAvatars::create([
             'user_id' => $user->id,
             'path' => $user->avatar,
@@ -126,5 +136,56 @@ class UserController extends Controller
         $avatars = $user->avatars()->latest()->take(6)->get();
 
         return response()->json($avatars);
+    }
+
+    public function storeServer(Request $request) {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $slug = Str::slug($request->name) . '-' . uniqid();
+
+        $server = new Server();
+        $server->name = $request->name;
+        $server->slug = $slug;
+        $server->owner_id = auth()->id();
+        $server->is_public = true;
+        $server->description = null;
+
+        if ($request->hasFile('icon')) {
+            $path = $request->file('icon')->store('icons', 'public');
+            $server->icon_path = $path;
+        }
+
+        $server->save();
+
+        $server->members()->attach(auth()->id());
+
+        return response()->json([
+            'message' => 'Server created successfully',
+            'server' => $server
+        ]);
+    }
+
+    public function getServer(Request $request) {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Ambil semua server yang user ikuti (termasuk yang dimiliki)
+        $servers = $user->joinedServers()->with('owner')->get();
+
+        foreach ($servers as $server) {
+            $server->icon = $server->icon_path
+                ? asset('storage/' . $server->icon_path)
+                : null;
+        }
+
+        return response()->json([
+            'servers' => $servers
+        ]);
     }
 }

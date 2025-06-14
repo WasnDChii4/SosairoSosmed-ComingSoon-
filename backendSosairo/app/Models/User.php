@@ -52,8 +52,17 @@ class User extends Authenticatable
     /**
      * Relasi ke tabel avatars
      */
-    public function avatars()
-    {
+    public function avatars() {
         return $this->hasMany(RecentAvatars::class);
+    }
+
+    public function ownedServers()
+    {
+        return $this->hasMany(Server::class, 'owner_id');
+    }
+
+    public function joinedServers()
+    {
+        return $this->belongsToMany(Server::class, 'server_users', 'users_id', 'servers_id');
     }
 }
