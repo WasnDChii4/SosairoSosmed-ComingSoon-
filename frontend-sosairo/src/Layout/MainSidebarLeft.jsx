@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPlus, FaEllipsisV } from "react-icons/fa";
 import axiosCLient from "../api/axios";
@@ -6,6 +6,39 @@ import axiosCLient from "../api/axios";
 export default function MainSidebarLeft() {
   const navigate = useNavigate();
   const [servers, setServers] = useState([]);
+  const [preview, setPreview] = useState(null);
+  const fileInputRef = useRef(null);
+  const dialogRef = useRef(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleLabelClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleClose = () => {
+      setPreview(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    };
+
+    dialog.addEventListener('close', handleClose);
+    return () => {
+      dialog.removeEventListener('close', handleClose);
+    };
+  }, []);
 
   const goToSettings = () => navigate('/settings/myProfile');
 
@@ -63,40 +96,60 @@ export default function MainSidebarLeft() {
           <FaPlus size={18} />
         </button>
       </div>
-      <dialog id="addServer" className="modal">
+      <dialog id="addServer" className="modal" ref={dialogRef}>
         <div className="modal-box">
           <h3 className="font-bold text-lg mb-4">Add New Server</h3>
           <form method="dialog" className="space-y-4">
             {/* Server Icon */}
             <div className="form-control space-y-2">
               <div className="flex justify-center">
-                <label className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-full cursor-pointer overflow-hidden hover:border-primary transition">
-                  <div className="flex flex-col items-center justify-center p-4 text-center">
-                    <svg className="w-6 h-6 mb-1 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
-                    </svg>
-                    <p className="text-xs text-gray-500 font-medium">Klik untuk unggah</p>
-                    <p className="text-[10px] text-gray-400">PNG, JPG, JPEG</p>
-                  </div>
-                  <input type="file" accept="image/*" className="hidden" />
+                <label onClick={handleLabelClick} className="flex items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-full cursor-pointer overflow-hidden hover:border-primary transition relative">
+                  {preview ? (
+                    <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center p-4 text-center">
+                      <svg className="w-6 h-6 mb-1 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
+                      </svg>
+                      <p className="text-xs text-gray-500 font-medium">
+                        Klik untuk unggah
+                      </p>
+                      <p className="text-[10px] text-gray-400">
+                        PNG, JPG, JPEG
+                      </p>
+                    </div>
+                  )}
+                  <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="hidden" />
                 </label>
               </div>
             </div>
+
             {/* Server Name */}
             <div className="form-control space-y-2">
               <label className="label">
                 <span className="label-text">Server Name</span>
               </label>
-              <input type="text" placeholder="Enter server name" className="input input-bordered w-full" />
+              <input
+                type="text"
+                placeholder="Enter server name"
+                className="input input-bordered w-full"
+              />
             </div>
+
             {/* Action Buttons */}
             <div className="modal-action flex justify-between pt-4">
-              <button className="btn btn-error text-white" formMethod="dialog">Cancel</button>
-              <button className="btn btn-primary" type="submit">Add</button>
+              <button className="btn btn-error text-white" formMethod="dialog">
+                Cancel
+              </button>
+              <button className="btn btn-primary" type="submit">
+                Add
+              </button>
             </div>
           </form>
         </div>
-        <form method='dialog' className='modal-backdrop'><button>Close</button></form>
+        <form method="dialog" className="modal-backdrop">
+          <button>Close</button>
+        </form>
       </dialog>
     </div>
 
