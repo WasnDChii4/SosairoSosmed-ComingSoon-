@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('servers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->index();
+            $table->string('name_server')->index();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('icon_path')->nullable();

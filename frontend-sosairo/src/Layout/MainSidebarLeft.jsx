@@ -41,7 +41,6 @@ export default function MainSidebarLeft() {
     };
   }, []);
 
-  // ⬇️ Pindahkan fetchServers ke luar useEffect agar bisa dipanggil ulang
   const fetchServers = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -63,7 +62,7 @@ export default function MainSidebarLeft() {
 
     try {
       const formData = new FormData();
-      formData.append("name", serverName);
+      formData.append("name_server", serverName);
       if (fileInputRef.current?.files[0]) {
         formData.append("icon", fileInputRef.current.files[0]);
       }
@@ -77,10 +76,8 @@ export default function MainSidebarLeft() {
         }
       });
 
-      // ✅ Setelah berhasil menambahkan, langsung fetch ulang agar icon muncul
       await fetchServers();
 
-      // Reset form
       setServerName("");
       setPreview(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
@@ -132,17 +129,13 @@ export default function MainSidebarLeft() {
       <div className="flex-1 overflow-y-auto flex flex-col items-center space-y-4 pb-4 overflow-x-hidden hide-scrollbar">
         {servers.length > 0 && (
           servers.map((server, index) => (
-            <div key={index} className="tooltip tooltip-right" data-tip={server.name}>
+            <div key={index} className="tooltip tooltip-right" data-tip={server.name_server}>
               <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 p-0 overflow-hidden">
                 {server.icon ? (
-                  <img
-                    src={server.icon}
-                    alt={server.name}
-                    className="w-full h-full object-cover rounded-full"
-                  />
+                  <img src={server.icon} alt={server.name_server} className="w-full h-full object-cover rounded-full" />
                 ) : (
                   <span className="text-xs font-bold">
-                    {server.name.charAt(0).toUpperCase()}
+                    {server.name_server.charAt(0).toUpperCase()}
                   </span>
                 )}
               </button>
@@ -158,7 +151,10 @@ export default function MainSidebarLeft() {
 
         <dialog id="addServer" className="modal" ref={dialogRef}>
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">Add New Server</h3>
+            <div className="mb-6 space-y-2">
+              <h3 className="font-bold text-lg">Add New Server</h3>
+              <p>Give your new server a personality with a name and an icon. You can always change it later.</p>
+            </div>
             <form method="dialog" className="space-y-4">
               <div className="form-control space-y-2">
                 <div className="flex justify-center">

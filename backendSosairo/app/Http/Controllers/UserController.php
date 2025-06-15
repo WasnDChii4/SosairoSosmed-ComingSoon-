@@ -100,18 +100,14 @@ class UserController extends Controller
 
         $user = auth()->user();
 
-        // Ambil nama file avatar saat ini
         $currentAvatar = $user->avatar;
 
-        // Cek apakah avatar sekarang bukan file default sosairo-logo1.png
         $isDefaultAvatar = $currentAvatar && str_contains($currentAvatar, 'sosairo-logo1.png');
 
-        // Hapus avatar lama jika bukan avatar default dan file-nya ada di storage
         if (!$isDefaultAvatar && $currentAvatar && Storage::disk('public')->exists(str_replace('storage/', '', $currentAvatar))) {
             Storage::disk('public')->delete(str_replace('storage/', '', $currentAvatar));
         }
 
-        // Simpan avatar baru
         $avatar = $request->file('avatar');
         $filename = 'avatars/' . Str::uuid() . '.' . $avatar->getClientOriginalExtension();
         Storage::disk('public')->put($filename, file_get_contents($avatar));
@@ -119,7 +115,6 @@ class UserController extends Controller
         $user->avatar = 'storage/' . $filename;
         $user->save();
 
-        // Catat di tabel recent avatars (jika digunakan)
         RecentAvatars::create([
             'user_id' => $user->id,
             'path' => $user->avatar,
@@ -140,14 +135,14 @@ class UserController extends Controller
 
     public function storeServer(Request $request) {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name_server' => 'required|string|max:255',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $slug = Str::slug($request->name) . '-' . uniqid();
 
         $server = new Server();
-        $server->name = $request->name;
+        $server->name_server = $request->name_server;
         $server->slug = $slug;
         $server->owner_id = auth()->id();
         $server->is_public = true;
@@ -175,7 +170,6 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Ambil semua server yang user ikuti (termasuk yang dimiliki)
         $servers = $user->joinedServers()->with('owner')->get();
 
         foreach ($servers as $server) {

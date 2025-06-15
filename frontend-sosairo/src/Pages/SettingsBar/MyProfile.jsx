@@ -144,7 +144,6 @@ export default function MyProfile() {
         {user ? (
           <>
             <div className="flex items-center gap-6 mb-10">
-
               {/* Avatar User */}
               <div className="avatar relative w-16 h-16">
                 <div className="w-16 h-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
