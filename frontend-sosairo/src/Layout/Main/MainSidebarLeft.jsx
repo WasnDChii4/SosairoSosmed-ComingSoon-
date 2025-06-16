@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaPlus, FaEllipsisV } from "react-icons/fa";
-import axiosCLient from "../api/axios";
+import axiosCLient from "../../api/axios";
 
 export default function MainSidebarLeft() {
   const navigate = useNavigate();
@@ -119,7 +119,7 @@ export default function MainSidebarLeft() {
   };
 
   return (
-    <div className="fixed top-12 left-0 w-16 h-[calc(100vh-3rem)] bg-neutral text-neutral-content flex flex-col z-40">
+    <div className="fixed top-12 left-0 w-20 h-[calc(100vh-3rem)] bg-neutral text-neutral-content flex flex-col z-40">
       <div className="flex flex-col items-center py-4">
       <div className="tooltip tooltip-right">
           <div className="tooltip-content bg-base-300 shadow-md shadow-black">
@@ -135,7 +135,7 @@ export default function MainSidebarLeft() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto flex flex-col items-center space-y-4 pt-4 pb-4 overflow-x-hidden hide-scrollbar">
+      <div className="flex-1 overflow-y-auto flex flex-col items-center space-y-4 pt-2 pb-4 overflow-x-hidden hide-scrollbar">
         {servers.map((server, index) => {
           const isActive = location.pathname === `/channels/server/${server.id}`;
           return (

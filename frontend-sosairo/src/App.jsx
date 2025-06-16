@@ -8,7 +8,7 @@ import LoginUser from './Pages/Login&Register/User/LoginUser';
 import MyProfile from './Pages/SettingsBar/MyProfile';
 import ProtectedRoute from './Middleware/ProtectedRoute';
 import ServerPage from './Pages/ServerPage';
-import MainLayoutPage from './Layout/MainLayoutPage';
+import MainLayoutPage from './Layout/Main/MainLayoutPage';
 
 export default function App() {
   return (

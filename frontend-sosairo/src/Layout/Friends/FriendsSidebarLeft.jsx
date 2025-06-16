@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ServerPage() {
+export default function FriendsSidebarLeft() {
   return (
     <div>
       

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaQuestionCircle, FaInbox } from "react-icons/fa";
 import { useLocation, matchPath } from "react-router-dom";
-import axiosCLient from "../api/axios";
+import axiosCLient from "../../api/axios";
 
 const routeTitles = {
   "/channels/friends": "Friends",

@@ -136,7 +136,7 @@ export default function MyProfile() {
   return (
     <SettingsLayoutPage>
       <div className="fixed left-64 top-0 right-0 z-50 flex items-center justify-between px-6 py-4 shadow">
-        <h1 className="text-2xl font-bold">My Account</h1>
+        <h1 className="text-2xl font-bold">My Profile</h1>
         <button className="btn btn-ghost btn-lg" onClick={goBackChannels}>← Back</button>
       </div>
 
