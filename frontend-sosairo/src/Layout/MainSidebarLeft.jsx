@@ -121,25 +121,26 @@ export default function MainSidebarLeft() {
   return (
     <div className="fixed top-12 left-0 w-16 h-[calc(100vh-3rem)] bg-neutral text-neutral-content flex flex-col z-40">
       <div className="flex flex-col items-center py-4">
-        <div className="tooltip tooltip-right">
+      <div className="tooltip tooltip-right">
           <div className="tooltip-content bg-base-300 shadow-md shadow-black">
             <div className="text-sm">Direct Message</div>
           </div>
-          <button onClick={() => navigate('/channels/friends')} className="w-12 h-12 btn btn-circle btn-sm bg-primary hover:bg-primary-focus">
-            <img src="/images/sosairo-logo2.png" alt="LogoSosairo" />
+          <button
+            onClick={() => navigate('/channels/friends')}
+            className={`w-12 h-12 btn btn-circle btn-sm p-0 overflow-hidden 
+              ${location.pathname === '/channels/friends' ? 'bg-primary ring ring-offset-2 ring-primary' : 'bg-base-100 hover:bg-primary'}`}
+          >
+            <img src="/images/sosairo-logo2.png" alt="LogoSosairo" className="w-full h-full object-cover rounded-full" />
           </button>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto flex flex-col items-center space-y-4 pt-4 pb-4 overflow-x-hidden hide-scrollbar">
         {servers.map((server, index) => {
-          const isActive = location.pathname.includes(`/servers/${server.id}`);
+          const isActive = location.pathname === `/channels/server/${server.id}`;
           return (
             <div key={index} className="tooltip tooltip-right" data-tip={server.name_server}>
-              <button
-                onClick={() => goToServer(server.id)}
-                className={`w-12 h-12 btn btn-circle btn-sm p-0 overflow-hidden ${isActive ? 'bg-primary' : 'bg-base-100'}`}
-              >
+              <button onClick={() => goToServer(server.id)} className={`w-12 h-12 btn btn-circle btn-sm p-0 overflow-hidden ${isActive ? 'bg-primary ring ring-offset-2 ring-primary' : 'bg-base-100 hover:bg-primary'}`}>
                 {server.icon ? (
                   <img src={server.icon} alt={server.name_server} className="w-full h-full object-cover rounded-full" />
                 ) : (

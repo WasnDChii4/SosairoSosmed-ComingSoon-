@@ -251,7 +251,7 @@ export default function MyProfile() {
           </>
         ) : (
           <div className='flex justify-center items-center min-h-[150px]'>
-            <span className="loading loading-ring loading-xl"></span>
+            <span className="loading loading-spinner loading-xl"></span>
           </div>
         )}
       </div>

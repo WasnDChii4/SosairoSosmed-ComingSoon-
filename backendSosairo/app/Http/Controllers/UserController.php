@@ -182,4 +182,14 @@ class UserController extends Controller
             'servers' => $servers
         ]);
     }
+
+    public function getServerById($id) {
+        $server = Server::find($id);
+
+        if (!$server) {
+            return response()->json(['message' => 'Server not found'], 404);
+        }
+
+        return response()->json($server);
+    }
 }
