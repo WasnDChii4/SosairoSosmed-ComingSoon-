@@ -121,15 +121,11 @@ export default function MainSidebarLeft() {
   return (
     <div className="fixed top-12 left-0 w-20 h-[calc(100vh-3rem)] bg-neutral text-neutral-content flex flex-col z-40">
       <div className="flex flex-col items-center py-4">
-      <div className="tooltip tooltip-right">
+        <div className="tooltip tooltip-right">
           <div className="tooltip-content bg-base-300 shadow-md shadow-black">
             <div className="text-sm">Direct Message</div>
           </div>
-          <button
-            onClick={() => navigate('/channels/friends')}
-            className={`w-12 h-12 btn btn-circle btn-sm p-0 overflow-hidden 
-              ${location.pathname === '/channels/friends' ? 'bg-primary ring ring-offset-2 ring-primary' : 'bg-base-100 hover:bg-primary'}`}
-          >
+          <button onClick={() => navigate('/channels/friends')} className={`w-12 h-12 btn btn-circle btn-sm p-0 ${location.pathname === '/channels/friends' ? 'bg-primary ring ring-offset-2 ring-primary' : 'bg-base-100 hover:bg-primary'}`}>
             <img src="/images/sosairo-logo2.png" alt="LogoSosairo" className="w-full h-full object-cover rounded-full" />
           </button>
         </div>

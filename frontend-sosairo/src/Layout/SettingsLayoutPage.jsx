@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 export default function SettingsLayoutPage({ children }) {
   const location = useLocation();
 
-  // Daftar menu navigasi sidebar
   const menuItems = [
     { name: "My Profile", path: "/settings/myProfile" },
   ];
