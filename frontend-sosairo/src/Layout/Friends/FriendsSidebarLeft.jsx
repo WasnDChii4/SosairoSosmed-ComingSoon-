@@ -9,8 +9,8 @@ export default function FriendsSidebarLeft() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="w-64 h-full bg-[#2b2d31] text-white flex flex-col overflow-y-auto p-2 hide-scrollbar">
-      <div className="mb-4">
+    <div className="w-64 h-[calc(88vh-3rem)] text-white flex flex-col p-2">
+      <div className="mb-2 flex-shrink-0">
         <ul className="space-y-1">
           <li>
             <button
@@ -35,16 +35,17 @@ export default function FriendsSidebarLeft() {
           </li>
         </ul>
       </div>
-
-      <div className="uppercase text-xs text-gray-400 px-3 py-1">Direct Messages</div>
-
-      <div className="space-y-1 mt-1">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <div key={i} className="px-3 py-2 hover:bg-[#3a3c41] rounded cursor-pointer">
-            DM User {i + 1}
-          </div>
-        ))}
+      <div className="flex-1 overflow-y-auto hide-scrollbar">
+        <div className="uppercase text-xs text-gray-400 px-3 py-1">Direct Messages</div>
+        <div className="space-y-1 mt-1">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div key={i} className="px-3 py-2 hover:bg-[#3a3c41] rounded cursor-pointer">
+              DM User {i + 1}
+            </div>
+          ))}
+        </div>
       </div>
+      
     </div>
   );
 }

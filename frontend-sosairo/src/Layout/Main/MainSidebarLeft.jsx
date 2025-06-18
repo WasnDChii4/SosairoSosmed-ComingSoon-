@@ -119,7 +119,7 @@ export default function MainSidebarLeft() {
   };
 
   return (
-    <div className="fixed top-12 left-0 w-20 h-[calc(100vh-3rem)] bg-neutral text-neutral-content flex flex-col z-40">
+    <div className="fixed left-0 top-12 bottom-0 w-20 bg-neutral text-neutral-content flex flex-col z-40">
       <div className="flex flex-col items-center py-4">
         <div className="tooltip tooltip-right">
           <div className="tooltip-content bg-base-300 shadow-md shadow-black">
