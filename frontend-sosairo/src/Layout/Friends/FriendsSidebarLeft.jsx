@@ -9,7 +9,7 @@ export default function FriendsSidebarLeft() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="w-64 h-[calc(88vh-3rem)] text-white flex flex-col p-2">
+    <div className="w-64 h-full text-white flex flex-col p-2">
       <div className="mb-2 flex-shrink-0">
         <ul className="space-y-1">
           <li>
@@ -45,7 +45,6 @@ export default function FriendsSidebarLeft() {
           ))}
         </div>
       </div>
-      
     </div>
   );
 }
