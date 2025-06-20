@@ -5,11 +5,11 @@ import FriendsSidebarLeft from "./FriendsSidebarLeft";
 
 export default function FriendsLayoutPage() {
   return (
-    <div className="flex flex-col overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden">
       <div className="h-16 flex-shrink-0">
         <FriendsNavbarTop />
       </div>
-      <div className="flex h-[calc(90vh-4rem)] overflow-hidden">
+      <div className="flex overflow-hidden">
         <aside className="w-64 flex-shrink-0">
           <FriendsSidebarLeft />
         </aside>
