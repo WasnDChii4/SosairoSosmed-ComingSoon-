@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->get('/getUserProfile', [UserController::class
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/servers', [UserController::class, 'storeServer']);
     Route::get('/servers', [UserController::class, 'getServer']);
-    Route::get('/server/{id}', [UserController::class, 'getServerById']);
+    Route::get('/server/{serverId}', [UserController::class, 'getServerById']);
 });
 
 Route::get('/registerSosairo', function (Request $request) {

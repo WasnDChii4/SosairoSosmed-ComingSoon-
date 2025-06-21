@@ -7,8 +7,8 @@ import RegisterUser from './Pages/Login&Register/User/RegisterUser';
 import LoginUser from './Pages/Login&Register/User/LoginUser';
 import MyProfile from './Pages/SettingsBar/MyProfile';
 import ProtectedRoute from './Middleware/ProtectedRoute';
-import ServerPage from './Pages/ServerPage';
 import MainLayoutPage from './Layout/Main/MainLayoutPage';
+import Server from './Pages/Server';
 
 export default function App() {
   return (
@@ -19,7 +19,7 @@ export default function App() {
         <Route path='/' element={<Welcome />}></Route>
         <Route path='/channels' element={<MainLayoutPage />}>
           <Route path='friends' element={<ProtectedRoute><Friends /></ProtectedRoute>}></Route>
-          <Route path='server/:serverId' element={<ProtectedRoute><ServerPage /></ProtectedRoute>}></Route>
+          <Route path='server/:serverId' element={<ProtectedRoute><Server /></ProtectedRoute>}></Route>
         </Route>
         <Route path='/settings/myProfile' element={<ProtectedRoute><MyProfile /></ProtectedRoute>}></Route>
         <Route path='*' element={<NotFound />}></Route>
