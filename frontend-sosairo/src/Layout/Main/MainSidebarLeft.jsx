@@ -153,52 +153,51 @@ export default function MainSidebarLeft() {
           <button className="w-12 h-12 btn btn-circle btn-sm bg-base-100 hover:bg-success-focus hover:bg-primary" onClick={() => document.getElementById("addServer").showModal()}>
             <FaPlus size={18} />
           </button>
-        </div>
-
-        {/* Modal Add Server */}
-        <dialog id="addServer" className="modal" ref={dialogRef}>
-          <div className="modal-box">
-            <div className="mb-6 space-y-2">
-              <h3 className="font-bold text-lg">Add New Server</h3>
-              <p>Give your new server a personality with a name and an icon. You can always change it later.</p>
-            </div>
-            <form method="dialog" className="space-y-4">
-              <div className="form-control space-y-2">
-                <div className="flex justify-center">
-                  <label onClick={handleLabelClick} className="flex items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-full cursor-pointer overflow-hidden hover:border-primary transition relative">
-                    {preview ? (
-                      <img src={preview} alt="Preview" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center p-4 text-center">
-                        <svg className="w-6 h-6 mb-1 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
-                        </svg>
-                        <p className="text-xs text-gray-500 font-medium">Klik untuk unggah</p>
-                        <p className="text-[10px] text-gray-400">PNG, JPG, JPEG</p>
-                      </div>
-                    )}
-                    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="hidden" />
-                  </label>
+          {/* Modal Add Server */}
+          <dialog id="addServer" className="modal" ref={dialogRef}>
+            <div className="modal-box">
+              <div className="mb-6 space-y-2">
+                <h3 className="font-bold text-lg">Add New Server</h3>
+                <p>Give your new server a personality with a name and an icon. You can always change it later.</p>
+              </div>
+              <form method="dialog" className="space-y-4">
+                <div className="form-control space-y-2">
+                  <div className="flex justify-center">
+                    <label onClick={handleLabelClick} className="flex items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-full cursor-pointer overflow-hidden hover:border-primary transition relative">
+                      {preview ? (
+                        <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center p-4 text-center">
+                          <svg className="w-6 h-6 mb-1 text-gray-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V17a2 2 0 002 2h14a2 2 0 002-2v-.5M7 10l5-5m0 0l5 5m-5-5v12" />
+                          </svg>
+                          <p className="text-xs text-gray-500 font-medium">Klik untuk unggah</p>
+                          <p className="text-[10px] text-gray-400">PNG, JPG, JPEG</p>
+                        </div>
+                      )}
+                      <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="hidden" />
+                    </label>
+                  </div>
                 </div>
-              </div>
 
-              <div className="form-control space-y-2">
-                <label className="label">
-                  <span className="label-text">Server Name</span>
-                </label>
-                <input type="text" placeholder="Enter server name" className="input input-bordered w-full" value={serverName} onChange={(e) => setServerName(e.target.value)} />
-              </div>
+                <div className="form-control space-y-2">
+                  <label className="label">
+                    <span className="label-text">Server Name</span>
+                  </label>
+                  <input type="text" placeholder="Enter server name" className="input input-bordered w-full" value={serverName} onChange={(e) => setServerName(e.target.value)} />
+                </div>
 
-              <div className="modal-action flex justify-between pt-4">
-                <button className="btn btn-error text-white" formMethod="dialog">Cancel</button>
-                <button type="button" className="btn btn-primary" onClick={handleAddServer}>Add</button>
-              </div>
+                <div className="modal-action flex justify-between pt-4">
+                  <button className="btn btn-error text-white" formMethod="dialog">Cancel</button>
+                  <button type="button" className="btn btn-primary" onClick={handleAddServer}>Add</button>
+                </div>
+              </form>
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>Close</button>
             </form>
-          </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>Close</button>
-          </form>
-        </dialog>
+          </dialog>
+        </div>
       </div>
 
       <div className="flex flex-col items-center mb-2 space-y-3 space-x-5 dropdown dropdown-right dropdown-end">
