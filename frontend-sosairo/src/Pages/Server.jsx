@@ -1,5 +1,5 @@
 import React from "react";
-import ServerSidebarLeft from "../Layout/Server/ServerSidebarLeft";
+import ServerSidebarLeft from "../Layout/Server&Chat/ServerSidebarLeft";
 
 export default function Server() {
   return (
