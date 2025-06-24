@@ -79,11 +79,7 @@ export default function ServerSidebarLeft() {
           </div>
           <ul className="space-y-1">
             {textChannels.map((channel) => (
-              <li
-                key={channel.id}
-                className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-[#3a3c41] cursor-pointer ${location.pathname.includes(channel.id) ? 'bg-[#40444b]' : ''}`}
-                onClick={() => goToChannel(channel.id)}
-              >
+              <li key={channel.id} className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-[#3a3c41] cursor-pointer ${location.pathname.includes(channel.id) ? 'bg-[#40444b]' : ''}`} onClick={() => goToChannel(channel.id)}>
                 <FaHashtag className="text-gray-400" />
                 <span className="text-sm">{channel.name}</span>
               </li>
@@ -98,11 +94,7 @@ export default function ServerSidebarLeft() {
           </div>
           <ul className="space-y-1">
             {voiceChannels.map((channel) => (
-              <li
-                key={channel.id}
-                className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-[#3a3c41] cursor-pointer ${location.pathname.includes(channel.id) ? 'bg-[#40444b]' : ''}`}
-                onClick={() => goToChannel(channel.id)}
-              >
+              <li key={channel.id} className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-[#3a3c41] cursor-pointer ${location.pathname.includes(channel.id) ? 'bg-[#40444b]' : ''}`} onClick={() => goToChannel(channel.id)}>
                 <HiSpeakerWave className="text-gray-400" />
                 <span className="text-sm">{channel.name}</span>
               </li>
