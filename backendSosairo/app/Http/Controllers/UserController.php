@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
+use App\Models\Channel;
 use App\Models\RecentAvatars;
 use App\Models\Server;
 use App\Models\User;
@@ -184,12 +186,80 @@ class UserController extends Controller
     }
 
     public function getServerById($id) {
-        $server = Server::find($id);
+        $server = Server::with([
+            'categories.channels',
+            'channels' => function ($q) {
+                $q->whereNull('category_id');
+            }
+        ])->find($id);
 
         if (!$server) {
             return response()->json(['message' => 'Server not found'], 404);
         }
 
-        return response()->json($server);
+        $textChannels = $server->channels->where('type', 'text')->values();
+        $voiceChannels = $server->channels->where('type', 'voice')->values();
+
+        return response()->json([
+            'name_server' => $server->name_server,
+            'icon' => $server->icon_path ? asset('storage/' . $server->icon_path) : null,
+            'categories' => $server->categories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'channels' => $category->channels->map(function ($channel) {
+                        return [
+                            'id' => $channel->id,
+                            'name' => $channel->name,
+                            'type' => $channel->type,
+                        ];
+                    }),
+                ];
+            }),
+            'text_channels' => $textChannels->map(function ($channel) {
+                return [
+                    'id' => $channel->id,
+                    'name' => $channel->name,
+                ];
+            }),
+            'voice_channels' => $voiceChannels->map(function ($channel) {
+                return [
+                    'id' => $channel->id,
+                    'name' => $channel->name,
+                ];
+            }),
+        ]);
+    }
+
+    public function createCategory(Request $request) {
+        $request->validate([
+            'server_id' => 'required|exists:servers,id',
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = Categories::create([
+            'server_id' => $request->server_id,
+            'name' => $request->name,
+        ]);
+
+        return response()->json(['message' => 'Category created', 'category' => $category]);
+    }
+
+    public function createChannel(Request $request) {
+        $request->validate([
+            'server_id' => 'required|exists:servers,id',
+            'category_id' => 'nullable|exists:categories,id',
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:text,voice',
+        ]);
+
+        $channel = Channel::create([
+            'server_id' => $request->server_id,
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'type' => $request->type,
+        ]);
+
+        return response()->json(['message' => 'Channel created', 'channel' => $channel]);
     }
 }

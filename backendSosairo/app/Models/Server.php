@@ -11,7 +11,7 @@ class Server extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'name_server',
         'slug',
         'description',
         'icon_path',
@@ -38,6 +38,10 @@ class Server extends Model
 
     public function channels() {
         return $this->hasMany(Channel::class);
+    }
+
+    public function categories() {
+        return $this->hasMany(related: Categories::class);
     }
 
     public function owner()

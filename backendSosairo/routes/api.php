@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/servers', [UserController::class, 'storeServer']);
     Route::get('/servers', [UserController::class, 'getServer']);
     Route::get('/server/{serverId}', [UserController::class, 'getServerById']);
+    Route::post('/category', [UserController::class, 'createCategory']);
+    Route::post('/channel', [UserController::class, 'createChannel']);
 });
 
 Route::get('/registerSosairo', function (Request $request) {

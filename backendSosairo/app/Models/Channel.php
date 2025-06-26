@@ -13,6 +13,7 @@ class Channel extends Model
         'server_id',
         'name',
         'type',
+        'category_id',
     ];
 
     public function server () {
@@ -21,5 +22,9 @@ class Channel extends Model
 
     public function messages () {
         return $this->hasMany(Message::class);
+    }
+
+    public function category() {
+        return $this->belongsTo(Categories::class);
     }
 }
