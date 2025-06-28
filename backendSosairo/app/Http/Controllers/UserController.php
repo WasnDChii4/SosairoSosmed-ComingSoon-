@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Category;
 use App\Models\Channel;
 use App\Models\RecentAvatars;
 use App\Models\Server;
@@ -237,12 +238,12 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $category = Categories::create([
+        $category = Category::create([
             'server_id' => $request->server_id,
             'name' => $request->name,
         ]);
 
-        return response()->json(['message' => 'Category created', 'category' => $category]);
+        return response()->json(['message' => 'Category created', 'category' => $category], 201);
     }
 
     public function createChannel(Request $request) {

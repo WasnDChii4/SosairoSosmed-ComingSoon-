@@ -41,7 +41,7 @@ class Server extends Model
     }
 
     public function categories() {
-        return $this->hasMany(related: Categories::class);
+        return $this->hasMany(related: Category::class);
     }
 
     public function owner()
