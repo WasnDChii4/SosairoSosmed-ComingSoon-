@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('server_id')->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->unsignedBigInteger('server_id');
+            $table->unsignedBigInteger('created_by');
+            $table->integer('position')->default(0);
             $table->timestamps();
+
+            $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+
+            $table->index(['server_id', 'position']);
         });
     }
 
