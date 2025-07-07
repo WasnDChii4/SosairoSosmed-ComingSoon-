@@ -54,7 +54,7 @@ export default function MyProfile() {
     const { name, value } = e.target;
 
     let newValue = value;
-
+dadaw
     if (name === 'username') {
       newValue = value.replace(/\s+/g, '-');
     }
