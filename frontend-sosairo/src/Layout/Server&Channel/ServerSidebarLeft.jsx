@@ -28,7 +28,7 @@ export default function ServerSidebarLeft() {
       const res = await axiosCLient.get(`/api/server/${serverId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setServerName(res.data.name_server || `Server ${serverId}`);
+      setServerName(res.data.server?.name_server || `Server ${serverId}`);
       setCategories(res.data.categories || []);
     } catch (error) {
       console.error("Gagal mengambil data server:", error);
@@ -54,15 +54,30 @@ export default function ServerSidebarLeft() {
   };
 
   const handleCreateCategory = async () => {
+    if (!newCategoryName.trim()) return;
+  
     const token = localStorage.getItem("token");
-    await axiosCLient.post("/api/category", {
-      server_id: serverId,
-      name: newCategoryName,
-    }, { headers: { Authorization: `Bearer ${token}` } });
-    setOpenCategoryModal(false);
-    setNewCategoryName("");
-    fetchServerInfo();
-  };
+  
+    try {
+      await axiosCLient.post(
+        "/api/categories",
+        {
+          server_id: serverId,
+          name: newCategoryName,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      setOpenCategoryModal(false);
+      setNewCategoryName("");
+      fetchServerInfo();
+    } catch (error) {
+      console.error("Gagal membuat kategori:", error);
+      alert("Gagal membuat kategori");
+    }
+  };  
 
   const handleCreateChannel = async () => {
     const token = localStorage.getItem("token");

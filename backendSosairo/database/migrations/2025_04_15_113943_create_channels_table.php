@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
             $table->string('name');
             $table->enum('type', ['text', 'voice'])->default('text');
+            $table->unsignedInteger('position')->default(0);
             $table->timestamps();
         });
     }
