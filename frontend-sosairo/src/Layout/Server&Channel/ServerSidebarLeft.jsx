@@ -105,7 +105,15 @@ export default function ServerSidebarLeft() {
       console.error("Gagal membuat channel:", error);
       alert(error.response?.data?.message || "Gagal membuat channel");
     }
-  };  
+  };
+
+  const handleChannelNameChange = (e) => {
+    const formattedValue = e.target.value
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-_]/g, "");
+    setNewChannelName(formattedValue);
+  };
 
   const title = isLoading
     ? <span className="loading loading-dots loading-md"></span>
@@ -173,7 +181,7 @@ export default function ServerSidebarLeft() {
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-8">Create Channel</h3>
             <div className="space-y-6">
-              <input type="text" value={newChannelName} onChange={(e) => setNewChannelName(e.target.value)} placeholder="Channel Name" className="input input-bordered w-full" />
+              <input type="text" value={newChannelName} onChange={handleChannelNameChange}  placeholder="Channel Name" className="input input-bordered w-full" />
               <select value={newChannelType} onChange={(e) => setNewChannelType(e.target.value)} className="select select-bordered w-full">
                 <option value="text">Text</option>
                 <option value="voice">Voice</option>
