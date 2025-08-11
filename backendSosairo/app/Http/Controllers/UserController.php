@@ -224,7 +224,7 @@ class UserController extends Controller
             if ($server->channels->count() > 0) {
                 $categories[] = [
                     'id' => null,
-                    'name' => 'Uncategorized',
+                    'name' => 'Uncategories',
                     'channels' => $server->channels->map(function ($channel) {
                         return [
                             'id' => $channel->id,
