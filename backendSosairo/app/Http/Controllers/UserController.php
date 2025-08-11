@@ -184,81 +184,72 @@ class UserController extends Controller
         ]);
     }
 
-    public function getServerById($id) {
-        try {
-            $server = Server::with([
-                'categories' => function ($query) {
-                    $query->orderBy('position', 'asc')->orderBy('created_at', 'asc');
-                },
-                'categories.channels' => function ($query) {
-                    $query->orderBy('position', 'asc')->orderBy('created_at', 'asc');
-                },
-                'channels' => function ($query) {
-                    $query->whereNull('category_id')->orderBy('position', 'asc')->orderBy('created_at', 'asc');
-                }
-            ])->find($id);
-
-            if (!$server) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Server not found',
-                    'name_server' => "Server {$id}"
-                ], 404);
+    public function getServerById($serverId) {
+        $server = Server::with([
+            'categories' => function ($query) {
+                $query->orderBy('position', 'asc')->orderBy('created_at', 'asc');
+            },
+            'categories.channels' => function ($query) {
+                $query->orderBy('position', 'asc')->orderBy('created_at', 'asc');
+            },
+            'channels' => function ($query) {
+                $query->whereNull('category_id')->orderBy('position', 'asc')->orderBy('created_at', 'asc');
             }
+        ])->find($serverId);
 
-            $textChannels = $server->channels->where('type', 'text')->values();
-            $voiceChannels = $server->channels->where('type', 'voice')->values();
-
-            return response()->json([
-                'success' => true,
-                'id' => $server->id,
-                'name_server' => $server->name_server,
-                'icon' => $server->icon_path ? asset('storage/' . $server->icon_path) : null,
-                'description' => $server->description,
-                'categories' => $server->categories->map(function ($category) {
-                    return [
-                        'id' => $category->id,
-                        'name' => $category->name,
-                        'position' => $category->position ?? 0,
-                        'created_at' => $category->created_at,
-                        'channels' => $category->channels->map(function ($channel) {
-                            return [
-                                'id' => $channel->id,
-                                'name' => $channel->name,
-                                'type' => $channel->type,
-                                'position' => $channel->position ?? 0,
-                                'created_at' => $channel->created_at,
-                            ];
-                        }),
-                    ];
-                }),
-                'text_channels' => $textChannels->map(function ($channel) {
-                    return [
-                        'id' => $channel->id,
-                        'name' => $channel->name,
-                        'position' => $channel->position ?? 0,
-                    ];
-                }),
-                'voice_channels' => $voiceChannels->map(function ($channel) {
-                    return [
-                        'id' => $channel->id,
-                        'name' => $channel->name,
-                        'position' => $channel->position ?? 0,
-                    ];
-                }),
-                'created_at' => $server->created_at,
-                'updated_at' => $server->updated_at,
-            ]);
-
-        } catch (\Exception $e) {
+        if (!$server) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch server information.',
-                'name_server' => "Server {$id}",
-                'error' => $e->getMessage()
-            ], 500);
+                'message' => 'Server not found',
+                'name_server' => "Server {$serverId}"
+            ], 404);
         }
+
+        $textChannels = $server->channels->where('type', 'text')->values();
+        $voiceChannels = $server->channels->where('type', 'voice')->values();
+
+        return response()->json([
+            'success' => true,
+            'id' => $server->id,
+            'name_server' => $server->name_server,
+            'icon' => $server->icon_path ? asset('storage/' . $server->icon_path) : null,
+            'description' => $server->description,
+            'categories' => $server->categories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'position' => $category->position ?? 0,
+                    'created_at' => $category->created_at,
+                    'channels' => $category->channels->map(function ($channel) {
+                        return [
+                            'id' => $channel->id,
+                            'name' => $channel->name,
+                            'type' => $channel->type,
+                            'position' => $channel->position ?? 0,
+                            'created_at' => $channel->created_at,
+                        ];
+                    }),
+                ];
+            }),
+            'text_channels' => $textChannels->map(function ($channel) {
+                return [
+                    'id' => $channel->id,
+                    'name' => $channel->name,
+                    'position' => $channel->position ?? 0,
+                ];
+            }),
+            'voice_channels' => $voiceChannels->map(function ($channel) {
+                return [
+                    'id' => $channel->id,
+                    'name' => $channel->name,
+                    'position' => $channel->position ?? 0,
+                ];
+            }),
+            'created_at' => $server->created_at,
+            'updated_at' => $server->updated_at,
+        ]);
     }
+
 
     public function createCategory(Request $request) {
         $request->validate([

@@ -28,18 +28,16 @@ export default function ServerSidebarLeft() {
       const res = await axiosCLient.get(`/api/server/${serverId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setServerName(res.data.server?.name_server || `Server ${serverId}`);
+      setServerName(res.data.name_server || `Server ${serverId}`);
       setCategories(res.data.categories || []);
     } catch (error) {
       console.error("Gagal mengambil data server:", error);
-      console.log("Response error data:", error?.response?.data);
-    
       const fallbackName = error?.response?.data?.name_server ?? `Server ${serverId}`;
       setServerName(fallbackName);
     } finally {
       setIsLoading(false);
     }
-  };
+  };  
 
   useEffect(() => {
     fetchServerInfo();
