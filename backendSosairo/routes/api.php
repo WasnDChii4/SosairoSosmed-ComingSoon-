@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/servers', [UserController::class, 'getServer']);
     Route::get('/server/{serverId}', [UserController::class, 'getServerById']);
     Route::post('/categories', [UserController::class, 'createCategory']);
+    Route::post('/channels', [UserController::class, 'createChannels']);
     Route::get('/servers/{serverId}/categories', [UserController::class, 'getCategoriesByServer']);
 });
 

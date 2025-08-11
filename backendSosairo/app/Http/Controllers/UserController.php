@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RecentAvatars;
-use App\Models\Server;
 use App\Models\User;
+use App\Models\Server;
+use App\Models\Channel;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\RecentAvatars;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -206,8 +207,33 @@ class UserController extends Controller
                 ], 404);
             }
 
-            $textChannels = $server->channels->where('type', 'text')->values();
-            $voiceChannels = $server->channels->where('type', 'voice')->values();
+            $categories = $server->categories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'channels' => $category->channels->map(function ($channel) {
+                        return [
+                            'id' => $channel->id,
+                            'name' => $channel->name,
+                            'type' => $channel->type,
+                        ];
+                    }),
+                ];
+            })->toArray();
+
+            if ($server->channels->count() > 0) {
+                $categories[] = [
+                    'id' => null,
+                    'name' => 'Uncategorized',
+                    'channels' => $server->channels->map(function ($channel) {
+                        return [
+                            'id' => $channel->id,
+                            'name' => $channel->name,
+                            'type' => $channel->type,
+                        ];
+                    }),
+                ];
+            }
 
             return response()->json([
                 'success' => true,
@@ -215,37 +241,7 @@ class UserController extends Controller
                 'name_server' => $server->name_server,
                 'icon' => $server->icon_path ? asset('storage/' . $server->icon_path) : null,
                 'description' => $server->description,
-                'categories' => $server->categories->map(function ($category) {
-                    return [
-                        'id' => $category->id,
-                        'name' => $category->name,
-                        'position' => $category->position ?? 0,
-                        'created_at' => $category->created_at,
-                        'channels' => $category->channels->map(function ($channel) {
-                            return [
-                                'id' => $channel->id,
-                                'name' => $channel->name,
-                                'type' => $channel->type,
-                                'position' => $channel->position ?? 0,
-                                'created_at' => $channel->created_at,
-                            ];
-                        }),
-                    ];
-                }),
-                'text_channels' => $textChannels->map(function ($channel) {
-                    return [
-                        'id' => $channel->id,
-                        'name' => $channel->name,
-                        'position' => $channel->position ?? 0,
-                    ];
-                }),
-                'voice_channels' => $voiceChannels->map(function ($channel) {
-                    return [
-                        'id' => $channel->id,
-                        'name' => $channel->name,
-                        'position' => $channel->position ?? 0,
-                    ];
-                }),
+                'categories' => $categories, // 🔹 Ganti yang lama pakai $categories baru
                 'created_at' => $server->created_at,
                 'updated_at' => $server->updated_at,
             ]);
@@ -296,4 +292,32 @@ class UserController extends Controller
             'categories' => $categories,
         ]);
     }
+
+    public function createChannels(Request $request) {
+        $validated = $request->validate([
+            'server_id' => 'required|exists:servers,id',
+            'name' => 'required|string|max:100',
+            'type' => 'required|in:text,voice',
+            'category_id' => 'nullable|exists:categories,id'
+        ]);
+
+        $position = Channel::where('server_id', $validated['server_id'])
+            ->where('category_id', $validated['category_id'])
+            ->max('position') + 1;
+
+        $channel = Channel::create([
+            'server_id' => $validated['server_id'],
+            'name' => $validated['name'],
+            'type' => $validated['type'],
+            'category_id' => $validated['category_id'],
+            'position' => $position
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Channel berhasil dibuat',
+            'channel' => $channel
+        ]);
+    }
+
 }

@@ -78,18 +78,34 @@ export default function ServerSidebarLeft() {
   };  
 
   const handleCreateChannel = async () => {
+    if (!newChannelName.trim()) {
+      alert("Channel name cannot be empty");
+      return;
+    }
+  
     const token = localStorage.getItem("token");
-    await axiosCLient.post("/api/channel", {
-      server_id: serverId,
-      name: newChannelName,
-      type: newChannelType,
-      category_id: selectedCategoryId
-    }, { headers: { Authorization: `Bearer ${token}` } });
-    setOpenChannelModal(false);
-    setNewChannelName("");
-    setSelectedCategoryId(null);
-    fetchServerInfo();
-  };
+    try {
+      await axiosCLient.post(
+        "/api/channels",
+        {
+          server_id: serverId,
+          name: newChannelName.trim(),
+          type: newChannelType,
+          category_id: selectedCategoryId || null
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      setOpenChannelModal(false);
+      setNewChannelName("");
+      setNewChannelType("text");
+      setSelectedCategoryId(null);
+      fetchServerInfo();
+    } catch (error) {
+      console.error("Gagal membuat channel:", error);
+      alert(error.response?.data?.message || "Gagal membuat channel");
+    }
+  };  
 
   const title = isLoading
     ? <span className="loading loading-dots loading-md"></span>

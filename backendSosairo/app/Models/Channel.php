@@ -14,6 +14,7 @@ class Channel extends Model
         'name',
         'type',
         'category_id',
+        'position'
     ];
 
     public function server () {
@@ -25,6 +26,6 @@ class Channel extends Model
     }
 
     public function category() {
-        return $this->belongsTo(Categories::class);
+        return $this->belongsTo(Category::class);
     }
 }
