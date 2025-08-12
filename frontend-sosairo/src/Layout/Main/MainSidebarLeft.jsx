@@ -32,6 +32,7 @@ export default function MainSidebarLeft() {
 
     const handleClose = () => {
       setPreview(null);
+      setServerName("");
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }

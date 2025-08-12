@@ -115,6 +115,17 @@ export default function ServerSidebarLeft() {
     setNewChannelName(formattedValue);
   };
 
+  const resetChannelForm = () => {
+    setNewChannelName("");
+    setNewChannelType("text");
+    setSelectedCategoryId(null);
+  };
+  
+  const closeChannelModal = () => {
+    resetChannelForm();
+    setOpenChannelModal(false);
+  };
+
   const title = isLoading
     ? <span className="loading loading-dots loading-md"></span>
     : serverName || "Server";
@@ -188,12 +199,12 @@ export default function ServerSidebarLeft() {
               </select>
             </div>
             <div className="modal-action">
-              <button className="btn" onClick={() => setOpenChannelModal(false)}>Cancel</button>
+              <button className="btn btn-error text-white" onClick={closeChannelModal}>Cancel</button>
               <button className="btn btn-primary" onClick={handleCreateChannel}>Create</button>
             </div>
           </div>
           <form method="dialog" className="modal-backdrop">
-            <button onClick={() => setOpenChannelModal(false)}>Close</button>
+            <button onClick={closeChannelModal}>Close</button>
           </form>
         </dialog>
       )}
