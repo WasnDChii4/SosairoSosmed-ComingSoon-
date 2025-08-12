@@ -23,23 +23,31 @@ export default function ServerSidebarLeft() {
   const fetchServerInfo = async () => {
     if (!serverId) return;
     const token = localStorage.getItem("token");
+
     setIsLoading(true);
     try {
       const res = await axiosCLient.get(`/api/server/${serverId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setServerName(res.data.name_server || `Server ${serverId}`);
-      setCategories(res.data.categories || []);
+
+      setTimeout(() => {
+        setServerName(res.data.name_server || `Server ${serverId}`);
+        setCategories(res.data.categories || []);
+        setIsLoading(false);
+      }, 300);
     } catch (error) {
       console.error("Gagal mengambil data server:", error);
       const fallbackName = error?.response?.data?.name_server ?? `Server ${serverId}`;
       setServerName(fallbackName);
-    } finally {
       setIsLoading(false);
     }
-  };  
+  };
 
   useEffect(() => {
+    setCategories([]);
+    setServerName(null);
+    setIsLoading(true);
+
     fetchServerInfo();
 
     if (dropdownRef.current && dropdownRef.current.open) {
@@ -53,21 +61,14 @@ export default function ServerSidebarLeft() {
 
   const handleCreateCategory = async () => {
     if (!newCategoryName.trim()) return;
-  
     const token = localStorage.getItem("token");
-  
+
     try {
       await axiosCLient.post(
         "/api/categories",
-        {
-          server_id: serverId,
-          name: newCategoryName,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { server_id: serverId, name: newCategoryName },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-  
       setOpenCategoryModal(false);
       setNewCategoryName("");
       fetchServerInfo();
@@ -75,14 +76,13 @@ export default function ServerSidebarLeft() {
       console.error("Gagal membuat kategori:", error);
       alert("Gagal membuat kategori");
     }
-  };  
+  };
 
   const handleCreateChannel = async () => {
     if (!newChannelName.trim()) {
       alert("Channel name cannot be empty");
       return;
     }
-  
     const token = localStorage.getItem("token");
     try {
       await axiosCLient.post(
@@ -95,7 +95,6 @@ export default function ServerSidebarLeft() {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
       setOpenChannelModal(false);
       setNewChannelName("");
       setNewChannelType("text");
@@ -120,7 +119,7 @@ export default function ServerSidebarLeft() {
     setNewChannelType("text");
     setSelectedCategoryId(null);
   };
-  
+
   const closeChannelModal = () => {
     resetChannelForm();
     setOpenChannelModal(false);
@@ -132,6 +131,7 @@ export default function ServerSidebarLeft() {
 
   return (
     <div className="w-64 bg-[#2B2D31] text-white flex flex-col h-full">
+      {/* Server Dropdown */}
       <div className="h-12 px-2 pt-2 pb-12 border-b-2 border-[#1f1f1f]">
         <details ref={dropdownRef} className="dropdown w-full">
           <summary className="btn btn-ghost justify-between w-full text-left font-bold text-white text-lg px-2 hover:bg-[#3a3c41] rounded">
@@ -150,31 +150,51 @@ export default function ServerSidebarLeft() {
         </details>
       </div>
 
+      {/* Categories & Channels */}
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-6 hide-scrollbar">
-        {categories.map((category) => (
-          <div key={category.id}>
-            <div className="flex justify-between items-center text-xs text-[#8e9297] font-semibold uppercase mb-1">
-              <span>{category.name}</span>
-              <button onClick={() => { setOpenChannelModal(true); setSelectedCategoryId(category.id); }} className="text-white hover:text-green-400"><FaPlus /></button>
+        {isLoading ? (
+          <div className="text-gray-400 text-center py-4">Loading channels...</div>
+        ) : (
+          categories.map((category) => (
+            <div key={category.id ?? `uncat-${Math.random()}`}>
+              <div className="flex justify-between items-center text-xs text-[#8e9297] font-semibold uppercase mb-1">
+                <span>{category.name}</span>
+                <button
+                  onClick={() => { setOpenChannelModal(true); setSelectedCategoryId(category.id); }}
+                  className="text-white hover:text-green-400"
+                >
+                  <FaPlus />
+                </button>
+              </div>
+              <ul className="space-y-1">
+                {category.channels.map((channel) => (
+                  <li
+                    key={channel.id}
+                    className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-[#3a3c41] cursor-pointer ${location.pathname.includes(channel.id) ? 'bg-[#40444b]' : ''}`}
+                    onClick={() => goToChannel(channel.id)}
+                  >
+                    <FaHashtag className="text-gray-400" />
+                    <span className="text-sm">{channel.name}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="space-y-1">
-              {category.channels.map((channel) => (
-                <li key={channel.id} className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-[#3a3c41] cursor-pointer ${location.pathname.includes(channel.id) ? 'bg-[#40444b]' : ''}`} onClick={() => goToChannel(channel.id)}>
-                  <FaHashtag className="text-gray-400" />
-                  <span className="text-sm">{channel.name}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       {/* Modal Create Category */}
       {openCategoryModal && (
         <dialog open className="modal">
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-8 ">Create Category</h3>
-            <input type="text" value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} placeholder="Category Name" className="input input-bordered w-full" />
+            <h3 className="font-bold text-lg mb-8">Create Category</h3>
+            <input
+              type="text"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+              placeholder="Category Name"
+              className="input input-bordered w-full"
+            />
             <div className="modal-action">
               <button className="btn" onClick={() => setOpenCategoryModal(false)}>Cancel</button>
               <button className="btn btn-primary" onClick={handleCreateCategory}>Create</button>
@@ -192,8 +212,18 @@ export default function ServerSidebarLeft() {
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-8">Create Channel</h3>
             <div className="space-y-6">
-              <input type="text" value={newChannelName} onChange={handleChannelNameChange}  placeholder="Channel Name" className="input input-bordered w-full" />
-              <select value={newChannelType} onChange={(e) => setNewChannelType(e.target.value)} className="select select-bordered w-full">
+              <input
+                type="text"
+                value={newChannelName}
+                onChange={handleChannelNameChange}
+                placeholder="Channel Name"
+                className="input input-bordered w-full"
+              />
+              <select
+                value={newChannelType}
+                onChange={(e) => setNewChannelType(e.target.value)}
+                className="select select-bordered w-full"
+              >
                 <option value="text">Text</option>
                 <option value="voice">Voice</option>
               </select>

@@ -20,6 +20,7 @@ export default function App() {
         <Route path='/channels' element={<MainLayoutPage />}>
           <Route path='friends' element={<ProtectedRoute><Friends /></ProtectedRoute>}></Route>
           <Route path='server/:serverId' element={<ProtectedRoute><Server /></ProtectedRoute>}></Route>
+          <Route path='server/:serverId/:channelId' element={<ProtectedRoute><Server /></ProtectedRoute>}></Route>
         </Route>
         <Route path='/settings/myProfile' element={<ProtectedRoute><MyProfile /></ProtectedRoute>}></Route>
         <Route path='*' element={<NotFound />}></Route>
