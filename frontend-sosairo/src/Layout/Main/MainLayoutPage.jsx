@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import MainTopNavbar from "./MainTopNavbar";
+// import MainTopNavbar from "./MainTopNavbar";
 import MainSidebarLeft from "./MainSidebarLeft";
 
 export default function MainLayoutPage() {
